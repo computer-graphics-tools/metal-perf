@@ -1,0 +1,79 @@
+{
+  "date": "2026-10-10",
+  "artifact_sha256": "2c1e80a0c2f716229332411903ed9b12f081668d85b59af1beae6e9f87989c3f",
+  "database_sha256": "7c9eb5c4f743952b703b713a374de3ae1a8d3c6879f5deb1f19c5e4f0a5e54a7",
+  "tools": [
+    "HopperMCPServer.search_strings",
+    "HopperMCPServer.xrefs",
+    "HopperMCPServer.procedure_info",
+    "HopperMCPServer.procedure_pseudo_code"
+  ],
+  "limitations": [
+    "Host compiler ARM64 analysis, not GPU ISA or runtime scheduling",
+    "Recovered pseudocode is analysis output, not original source",
+    "Registration observed; command-line acceptance, pipeline effect, default value and performance effect unverified",
+    "Generic LLVM-style options do not prove M5-specific control",
+    "REA search_strings errored/hung; native Hopper MCP supplied completed evidence"
+  ],
+  "probe_failure": {
+    "command": "xcrun metal-tt --help",
+    "exit_code": 1,
+    "output": "metal-tt: malformed command line; unknown argument: --help"
+  },
+  "trimmed": "Trimmed 2026-10-13: Hopper assembly and pseudocode bodies of this Apple binary were removed. Symbols, addresses, basic-block ranges, call lists and summaries are kept. The untrimmed result is not redistributed.",
+  "findings": [
+    {
+      "description_address": "0x456674f",
+      "xref": "0x1412e7c",
+      "procedure": "sub_1412cd8",
+      "registration": "misched-regpressure",
+      "other_registrations": [
+        "misched-topdown",
+        "misched-bottomup",
+        "enable-misched",
+        "enable-post-misched"
+      ],
+      "entrypoint": "0x1412cd8",
+      "length": 1216,
+      "basicblock_count": 1,
+      "basicblocks": [
+        {
+          "from": "0x1412cd8",
+          "to": "0x1413194"
+        }
+      ]
+    },
+    {
+      "description_address": "0x456db4c",
+      "xref": "0x143304c",
+      "procedure": "sub_1432e14",
+      "registration": "enable-deferred-spilling",
+      "other_registrations": null,
+      "entrypoint": "0x1432e14",
+      "length": 872,
+      "basicblock_count": 5,
+      "basicblocks": [
+        {
+          "from": "0x1432e14",
+          "to": "0x1432f18"
+        },
+        {
+          "from": "0x1432f1c",
+          "to": "0x1432f1c"
+        },
+        {
+          "from": "0x143315c",
+          "to": "0x1433174"
+        },
+        {
+          "from": "0x1433178",
+          "to": "0x1433178"
+        },
+        {
+          "from": "0x1432f20",
+          "to": "0x1433158"
+        }
+      ]
+    }
+  ]
+}

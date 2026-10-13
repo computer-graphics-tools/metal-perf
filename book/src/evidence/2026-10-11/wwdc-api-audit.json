@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-11",
+  "scope": "WWDC25/macOS26 and WWDC26/macOS27 Metal and ML material relevant or adjacent to on-device ML inference",
+  "catalog_count": 260,
+  "catalog_year_counts": {
+    "2025": 122,
+    "2026": 138
+  },
+  "screened_sessions": 66,
+  "transcripts_retrieved": 66,
+  "session_scopes": {
+    "Adjacent ML API": 15,
+    "Engine/runtime/tools": 28,
+    "Application/UI context": 19,
+    "Q&A / overview": 4
+  },
+  "api_families": 46,
+  "novelty_rule": "Distinguish SDK-introduced APIs from a session merely demonstrating an existing API; no exhaustive SDK-member-diff claim",
+  "key_constraints": [
+    "Int4/UInt4 types are SDK 26.4; FP4/FP8/I2 and scale planes are 27",
+    "E8M0 scale planes require 32x1... block factors and are not arbitrary BF16 affine quantization",
+    "Multi-plane tensors exclude machineLearning usage",
+    "Cooperative input reuse needs compatibility checks; minimum 26.x runtime not inferred from talk date",
+    "Foreign memory CoreAI views can still cause layout/backing conversions"
+  ],
+  "recommendation": [
+    "A1 direct cooperative operand construction",
+    "A2 larger per-group integer TensorOps operation with exact quantization boundaries",
+    "B1 compiled-network subgraph baseline"
+  ],
+  "quality_gated": [
+    "Native MX/E8M0 requantization",
+    "Changed accumulation or attention reduction order",
+    "Different model/provider/distributed execution"
+  ],
+  "coreai_availability": {
+    "docc_omitted_macos": true,
+    "sdk_native_macos_module_present": true,
+    "swift_typecheck_target": "arm64-apple-macos27.0",
+    "swift_typecheck_exit": 0,
+    "runtime_inference_tested": false
+  },
+  "hashes": {
+    "catalog.json": "4dc91566df3013d202f609df44370216d94e8febb2288e4ce39e18e956801107",
+    "sessions.json": "644f1163a4de7cad014f5a707ff4bbc9e562dac8cd7af5313afb94dbfbc72f0f",
+    "api-inventory.json": "fe6a443e356fb1028c78a090f8e1f31fe9ba1a4d8402ac0c3af27b6f1a171b60",
+    "availability.json": "1b3a4f0449deee2b37f175fbaf8bbfd07a21efa0cc2120a74f48e4e268357626",
+    "coreai-availability.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "MTLTensor.h.snapshot": "6eb530b64f80c91da1715ac3e4e93c77fae26a68eeeebd79f7d66b68d12b982b"
+  },
+  "new_performance_claim": false,
+  "chapter": "wwdc25-26-api-plan.md",
+  "verification": {
+    "catalog_unique_entries": 260,
+    "selected_transcripts_present": 66,
+    "api_ids_unique": true,
+    "coreai_native_macos_typecheck": "passed",
+    "benchmarks_run": false
+  },
+  "redaction": "2026-10-13: an engine-specific usage scope, a usage-audit constraint and engine test fields were removed."
+}

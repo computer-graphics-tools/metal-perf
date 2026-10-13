@@ -1,0 +1,507 @@
+{
+  "deduplicated": "2026-10-13: one copy of the inspect_macho result kept (header fields, architectures, build metadata, exports, uuid, provenance, limitations); duplicated raw/normalized copies and the import, load-command, segment and dependency tables were removed.",
+  "result": {
+    "format": "mach-o",
+    "file_type": "6",
+    "word_size": 64,
+    "endian": null,
+    "flags": [
+      "0x00910085"
+    ],
+    "uuid": "92017C0C-E0E1-3EC7-936B-587E5BBC2F4A",
+    "architectures": {
+      "items": [
+        {
+          "name": "x86_64",
+          "cpu_type": "CPU_TYPE_X86_64",
+          "cpu_subtype": "CPU_SUBTYPE_X86_ALL",
+          "file_offset": 16384,
+          "size": 83476208,
+          "alignment": 16384
+        },
+        {
+          "name": "arm64",
+          "cpu_type": "CPU_TYPE_ARM64",
+          "cpu_subtype": "CPU_SUBTYPE_ARM64_ALL",
+          "file_offset": 83492864,
+          "size": 80205664,
+          "alignment": 16384
+        }
+      ],
+      "total": 2,
+      "exhaustive": true,
+      "limitations": []
+    },
+    "build_metadata": {
+      "items": [
+        {
+          "platform": "1",
+          "minimum_os": "14.0",
+          "sdk": "27.0",
+          "tools": [
+            {
+              "name": "3",
+              "version": "27037.1"
+            }
+          ]
+        }
+      ],
+      "total": 1,
+      "exhaustive": true,
+      "limitations": []
+    },
+    "entrypoints": {
+      "items": [],
+      "total": 0,
+      "exhaustive": true,
+      "limitations": []
+    },
+    "exports": {
+      "items": [
+        {
+          "name": "_AIRNTClone",
+          "address": "0x1a1a24",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTDispose",
+          "address": "0x1a1988",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTEmitAssembly",
+          "address": "0x1a21cc",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTEmitBuiltinExecutableImage",
+          "address": "0x1a4e18",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTEmitDylibImage",
+          "address": "0x1a232c",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTEmitExecutableImage",
+          "address": "0x1a433c",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTEmitObject",
+          "address": "0x1a227c",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTEmitPipelineImages",
+          "address": "0x1b3308",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetBuiltinFunctionId",
+          "address": "0x1b609c",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetComputeFunctionId",
+          "address": "0x1b6868",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetDefaultArch",
+          "address": "0x1a1acc",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetFragmentFunctionId",
+          "address": "0x1b7038",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetFunctionId",
+          "address": "0x1b6044",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetLegalizationPasses",
+          "address": "0x1b5fe8",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetLLVMVersion",
+          "address": "0x1a0a4c",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetMeshFunctionId",
+          "address": "0x1b7ac8",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetObjectFunctionId",
+          "address": "0x1b77a0",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetPreferredAIRArch",
+          "address": "0x1a1f58",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetSupportedArchs",
+          "address": "0x1a1b10",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetSupportedBitcodeVersion",
+          "address": "0x1a1f68",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetSupportedImpls",
+          "address": "0x1a1c04",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetTileFunctionId",
+          "address": "0x1b74e8",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetVendorName",
+          "address": "0x1a1ac0",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetVersion",
+          "address": "0x1a1aac",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTGetVertexFunctionId",
+          "address": "0x1b6b3c",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTInit",
+          "address": "0x1a0a54",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTParseCommandLineOptions",
+          "address": "0x1a1f70",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTSupportsArch",
+          "address": "0x1a1c7c",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTSupportsEmitBuiltinExecutableImage",
+          "address": "0x1a2168",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTSupportsEmitExecutableImage",
+          "address": "0x1a2160",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTSupportsTarget",
+          "address": "0x1a1d20",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        },
+        {
+          "name": "_AIRNTSupportsThreads",
+          "address": "0x1a2170",
+          "weak": null,
+          "reexport": false,
+          "source": null
+        }
+      ],
+      "total": null,
+      "exhaustive": false,
+      "limitations": [
+        "Merged nm/dyld_info results may be incomplete for stripped binaries."
+      ]
+    },
+    "provenance": [
+      {
+        "tool": "file",
+        "command": [
+          "/usr/bin/file",
+          "-b",
+          "$ARTIFACT"
+        ],
+        "tool_version": null,
+        "version_reason": "Tool exposes no uniform stable version flag; executable digest identifies it.",
+        "executable_sha256": "8014815e1028410f48966f1880f99c842a5678cf2fcaa010e8d7e9e498f651d0",
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "stdout_bytes": 608,
+        "stderr_bytes": 0
+      },
+      {
+        "tool": "lipo",
+        "command": [
+          "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo",
+          "-detailed_info",
+          "$ARTIFACT"
+        ],
+        "tool_version": null,
+        "version_reason": "Tool exposes no uniform stable version flag; executable digest identifies it.",
+        "executable_sha256": "f9fefcc95e50e31a65e72f7c186d9da5938a6ec267f3c3fa4bf5074b6a20f020",
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "stdout_bytes": 534,
+        "stderr_bytes": 0
+      },
+      {
+        "tool": "otool",
+        "command": [
+          "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/llvm-otool",
+          "-h",
+          "-l",
+          "-arch",
+          "arm64",
+          "$ARTIFACT"
+        ],
+        "tool_version": null,
+        "version_reason": "Tool exposes no uniform stable version flag; executable digest identifies it.",
+        "executable_sha256": "8353ad3c42743a93e9ca7d0d4e9d3df22305252d169c42c543ee22eeb8c33809",
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "stdout_bytes": 7754,
+        "stderr_bytes": 0
+      },
+      {
+        "tool": "nm",
+        "command": [
+          "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/llvm-nm",
+          "-gjU",
+          "-arch",
+          "arm64",
+          "$ARTIFACT"
+        ],
+        "tool_version": null,
+        "version_reason": "Tool exposes no uniform stable version flag; executable digest identifies it.",
+        "executable_sha256": "82e9189ec1a359699d4b680601c0a2930a9cbea7376c7320947dff5e9862cfa8",
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "stdout_bytes": 761,
+        "stderr_bytes": 0
+      },
+      {
+        "tool": "dyld_info",
+        "command": [
+          "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dyld_info",
+          "-imports",
+          "-arch",
+          "arm64",
+          "$ARTIFACT"
+        ],
+        "tool_version": null,
+        "version_reason": "Tool exposes no uniform stable version flag; executable digest identifies it.",
+        "executable_sha256": "1312aaaac28bd7636fcd1b9347328db80003de8f6da27a03126b0ae716c3cf62",
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "stdout_bytes": 18668,
+        "stderr_bytes": 0
+      },
+      {
+        "tool": "dyld_info",
+        "command": [
+          "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dyld_info",
+          "-exports",
+          "-arch",
+          "arm64",
+          "$ARTIFACT"
+        ],
+        "tool_version": null,
+        "version_reason": "Tool exposes no uniform stable version flag; executable digest identifies it.",
+        "executable_sha256": "1312aaaac28bd7636fcd1b9347328db80003de8f6da27a03126b0ae716c3cf62",
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "stdout_bytes": 1615,
+        "stderr_bytes": 0
+      },
+      {
+        "tool": "dwarfdump",
+        "command": [
+          "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/llvm-dwarfdump",
+          "--uuid",
+          "--arch=arm64",
+          "$ARTIFACT"
+        ],
+        "tool_version": null,
+        "version_reason": "Tool exposes no uniform stable version flag; executable digest identifies it.",
+        "executable_sha256": "4aa5dcbab821ed16cbc51c0f291a7cc17d3de12b228fb8dd8d7c23999976deaa",
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "stdout_bytes": 215,
+        "stderr_bytes": 0
+      },
+      {
+        "tool": "vtool",
+        "command": [
+          "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/vtool",
+          "-show-build",
+          "-arch",
+          "arm64",
+          "$ARTIFACT"
+        ],
+        "tool_version": null,
+        "version_reason": "Tool exposes no uniform stable version flag; executable digest identifies it.",
+        "executable_sha256": "0ac654efe667ee9fb542f929884918e91c0d166bcfb75f128c35479a2a57c71c",
+        "exit": {
+          "code": 0,
+          "signal": null
+        },
+        "stdout_bytes": 331,
+        "stderr_bytes": 0
+      }
+    ],
+    "limitations": [
+      "Imports and exports combine dyld_info and nm; stripped or toolchain-hidden symbols may be absent.",
+      "vtool output is retained as provenance but only otool build metadata is normalized."
+    ]
+  },
+  "evidence": {
+    "evidence_id": "ev_6bf8c397379f86c3d56b7269d92109d8f37eee6bdbb339b98a22536336bc3b57",
+    "subject": {
+      "name": "libapplegpu-nt.dylib",
+      "digest": {
+        "sha256": "2c1e80a0c2f716229332411903ed9b12f081668d85b59af1beae6e9f87989c3f"
+      },
+      "format": "mach-o",
+      "architecture": "arm64",
+      "local_path": "/private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.266.1.q2kph2/Metal.xctoolchain/usr/metal/32023/lib/libapplegpu-nt.dylib"
+    },
+    "provider": {
+      "id": "native-macos",
+      "name": "macOS native inspection utilities",
+      "version": null
+    },
+    "predicate_type": "rea.analysis",
+    "operation": "inspect_macho",
+    "parameters": {},
+    "confidence": "observed",
+    "authority": "shipped-artifact",
+    "environment": null,
+    "limitations": [
+      "Imports and exports combine dyld_info and nm; stripped or toolchain-hidden symbols may be absent.",
+      "vtool output is retained as provenance but only otool build metadata is normalized."
+    ],
+    "locations": [
+      {
+        "kind": "file-offset-range",
+        "start": 16384,
+        "end": 83492592
+      },
+      {
+        "kind": "file-offset-range",
+        "start": 83492864,
+        "end": 163698528
+      },
+      {
+        "kind": "file-offset-range",
+        "start": 83492864,
+        "end": 158580736
+      },
+      {
+        "kind": "file-offset-range",
+        "start": 158580736,
+        "end": 162906112
+      },
+      {
+        "kind": "file-offset-range",
+        "start": 162906112,
+        "end": 162922496
+      },
+      {
+        "kind": "file-offset-range",
+        "start": 162922496,
+        "end": 163698528
+      }
+    ],
+    "evidence_links": []
+  }
+}

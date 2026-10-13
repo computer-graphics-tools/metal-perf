@@ -1,0 +1,238 @@
+{
+  "date": "2026-10-11",
+  "device": "Apple M5 Max",
+  "scope": "Private compiler control admission; source and mathematics unchanged",
+  "status": "No effective backend control demonstrated; no performance claim",
+  "interfaces": {
+    "additionalCompilerArguments": "NSString on MTLCompileOptionsInternal; default nil",
+    "legacyOptions": "driverCompilerOptions and gpuCompilerSPIOptions NSDictionary getters/setters present",
+    "metal4Options": "No corresponding legacy dictionary selectors on MTL4ComputePipelineDescriptor",
+    "registerBudget": "MTL4PipelineOptions maxNumRegisters, Q getter and v...Q setter, default 0"
+  },
+  "argumentProbes": [
+    {
+      "name": "control",
+      "process_exit": 0,
+      "result": {
+        "arguments": "",
+        "library_created": 1,
+        "pipeline_error": "",
+        "error": "",
+        "pipeline_created": 1
+      }
+    },
+    {
+      "name": "invalid",
+      "process_exit": 0,
+      "result": {
+        "error": "error: unknown argument: '<invalid-flag>'\n",
+        "arguments": "<invalid-flag>",
+        "library_created": 0
+      }
+    },
+    {
+      "name": "invalid-llvm",
+      "process_exit": 0,
+      "result": {
+        "arguments": "-mllvm <invalid-backend-flag>",
+        "library_created": 1,
+        "pipeline_error": "",
+        "error": "",
+        "pipeline_created": 1
+      }
+    },
+    {
+      "name": "deferred",
+      "process_exit": 0,
+      "result": {
+        "arguments": "-mllvm -enable-deferred-spilling=true",
+        "library_created": 1,
+        "pipeline_error": "",
+        "error": "",
+        "pipeline_created": 1
+      }
+    },
+    {
+      "name": "regpressure",
+      "process_exit": 0,
+      "result": {
+        "arguments": "-mllvm -misched-regpressure=false",
+        "library_created": 1,
+        "pipeline_error": "",
+        "error": "",
+        "pipeline_created": 1
+      }
+    }
+  ],
+  "registerProbes": {
+    "values": [
+      64,
+      256
+    ],
+    "appliedAt": [
+      "pipeline descriptor options",
+      "specialized function pipelineOptions",
+      "underlying library function pipelineOptions (v2, 64)"
+    ],
+    "valueReadback": true,
+    "exactLayers": [
+      0,
+      63
+    ],
+    "checks": "A8 codes/scales/sums, BF16 split-K partials, reduction, output RHT and poisoned guard bytes",
+    "stats64": [
+      {
+        "ALU": "928",
+        "Branch": "11",
+        "Cost": "48.24%",
+        "Device atomics": "0",
+        "Device loads": "100",
+        "Device stores": "4",
+        "FP16": "0",
+        "FP32": "176",
+        "Instructions": "1191",
+        "INT16": "26",
+        "INT32": "290",
+        "Invocations": "1",
+        "SIMD groups": "680",
+        "Spilled bytes": "128",
+        "Stage": "compute",
+        "Temp registers": "126",
+        "Texture reads": "0",
+        "Texture writes": "0",
+        "Threadgroup atomics": "0",
+        "Threadgroup loads": "0",
+        "Threadgroup memory (bytes)": "0",
+        "Threadgroup stores": "0",
+        "Uniform registers": "44",
+        "Wait": "0"
+      },
+      {
+        "ALU": "928",
+        "Branch": "11",
+        "Cost": "41.39%",
+        "Device atomics": "0",
+        "Device loads": "100",
+        "Device stores": "4",
+        "FP16": "0",
+        "FP32": "176",
+        "Instructions": "1191",
+        "INT16": "26",
+        "INT32": "290",
+        "Invocations": "1",
+        "SIMD groups": "680",
+        "Spilled bytes": "128",
+        "Stage": "compute",
+        "Temp registers": "126",
+        "Texture reads": "0",
+        "Texture writes": "0",
+        "Threadgroup atomics": "0",
+        "Threadgroup loads": "0",
+        "Threadgroup memory (bytes)": "0",
+        "Threadgroup stores": "0",
+        "Uniform registers": "44",
+        "Wait": "0"
+      }
+    ],
+    "stats256": [
+      {
+        "ALU": "928",
+        "Branch": "11",
+        "Cost": "85.03%",
+        "Device atomics": "0",
+        "Device loads": "100",
+        "Device stores": "4",
+        "FP16": "0",
+        "FP32": "176",
+        "Instructions": "1191",
+        "INT16": "26",
+        "INT32": "290",
+        "Invocations": "1",
+        "SIMD groups": "680",
+        "Spilled bytes": "128",
+        "Stage": "compute",
+        "Temp registers": "126",
+        "Texture reads": "0",
+        "Texture writes": "0",
+        "Threadgroup atomics": "0",
+        "Threadgroup loads": "0",
+        "Threadgroup memory (bytes)": "0",
+        "Threadgroup stores": "0",
+        "Uniform registers": "44",
+        "Wait": "0"
+      }
+    ],
+    "stats64v2": [
+      {
+        "ALU": "928",
+        "Branch": "11",
+        "Cost": "74.76%",
+        "Device atomics": "0",
+        "Device loads": "100",
+        "Device stores": "4",
+        "FP16": "0",
+        "FP32": "176",
+        "Instructions": "1191",
+        "INT16": "26",
+        "INT32": "290",
+        "Invocations": "1",
+        "SIMD groups": "680",
+        "Spilled bytes": "128",
+        "Stage": "compute",
+        "Temp registers": "126",
+        "Texture reads": "0",
+        "Texture writes": "0",
+        "Threadgroup atomics": "0",
+        "Threadgroup loads": "0",
+        "Threadgroup memory (bytes)": "0",
+        "Threadgroup stores": "0",
+        "Uniform registers": "44",
+        "Wait": "0"
+      },
+      {
+        "ALU": "928",
+        "Branch": "11",
+        "Cost": "0.37%",
+        "Device atomics": "0",
+        "Device loads": "100",
+        "Device stores": "4",
+        "FP16": "0",
+        "FP32": "176",
+        "Instructions": "1191",
+        "INT16": "26",
+        "INT32": "290",
+        "Invocations": "1",
+        "SIMD groups": "40",
+        "Spilled bytes": "128",
+        "Stage": "compute",
+        "Temp registers": "126",
+        "Texture reads": "0",
+        "Texture writes": "0",
+        "Threadgroup atomics": "0",
+        "Threadgroup loads": "0",
+        "Threadgroup memory (bytes)": "0",
+        "Threadgroup stores": "0",
+        "Uniform registers": "44",
+        "Wait": "0"
+      }
+    ],
+    "interpretation": "All inspected GEMM variants report 1191 instructions, 126 temporary registers and 128 spilled bytes. This does not prove byte-identical code, and no enforced 64-register limit is demonstrated."
+  },
+  "negativeControlConclusion": "Unknown top-level argument fails but unknown -mllvm argument succeeds. Therefore success with recovered LLVM option names does not establish backend parsing.",
+  "toolLimits": {
+    "rea": "binary_session returned stale busy Hopper request 39 on a terminated launcher. capture_process_scenario timed out with no output in its spawn-helper; no successful probe execution claimed from that tool.",
+    "fallback": "Direct Hopper MCP read the existing saved compiler project; ordinary process runner executed runtime probes; xcrun gpudebug profiled own captures.",
+    "closedSessions": [
+      160,
+      163,
+      168
+    ]
+  },
+  "tests": {
+    "builds": "xcrun clang -fobjc-arc -framework Foundation -framework Metal; xcrun swiftc -O",
+    "format": "clang-format --dry-run --Werror and swift-format lint --strict passed",
+    "timing": "Not run: no backend effect demonstrated"
+  },
+  "next": "Prefer an explicit, bounded AIR descriptor mutation with visible input change, exact-output validation and target statistics; further private flags require tracing serialization into the target compiler.",
+  "redaction": "2026-10-13: the deliberately invalid probe flag names were replaced by <invalid-flag> and <invalid-backend-flag>; source-line accounting was removed."
+}

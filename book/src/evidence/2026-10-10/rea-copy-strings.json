@@ -1,0 +1,88 @@
+{
+  "result": [
+    {
+      "address": "0x4766ea5",
+      "value": "air.simdgroup_async_copy_1d"
+    },
+    {
+      "address": "0x4766ec1",
+      "value": "air.simdgroup_async_copy_2d"
+    }
+  ],
+  "evidence_id": "ev_68175cf9d812c94a512bdd20176842ac02c31ba4d884a930b6ed720ec32b76da",
+  "evidence": {
+    "evidence_id": "ev_68175cf9d812c94a512bdd20176842ac02c31ba4d884a930b6ed720ec32b76da",
+    "subject": {
+      "name": "libapplegpu-nt.dylib",
+      "digest": {
+        "sha256": "2c1e80a0c2f716229332411903ed9b12f081668d85b59af1beae6e9f87989c3f"
+      },
+      "format": "mach-o",
+      "architecture": "arm64",
+      "local_path": "/private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.266.1.q2kph2/Metal.xctoolchain/usr/metal/32023/lib/libapplegpu-nt.dylib"
+    },
+    "provider": {
+      "id": "hopper",
+      "name": "Hopper Disassembler",
+      "version": "launcher-sha256:b6eb364804103063c8d25b12d10a74c149519f319abdfe842729fbc10309416f"
+    },
+    "predicate_type": "rea.analysis",
+    "operation": "search_strings",
+    "parameters": {
+      "pattern": "air.simdgroup_async_copy",
+      "mode": "literal",
+      "case_sensitive": false,
+      "document": null
+    },
+    "raw_result": [
+      {
+        "address": "0x4766ea5",
+        "value": "air.simdgroup_async_copy_1d"
+      },
+      {
+        "address": "0x4766ec1",
+        "value": "air.simdgroup_async_copy_2d"
+      }
+    ],
+    "normalized_result": [
+      {
+        "address": "0x4766ea5",
+        "value": "air.simdgroup_async_copy_1d"
+      },
+      {
+        "address": "0x4766ec1",
+        "value": "air.simdgroup_async_copy_2d"
+      }
+    ],
+    "confidence": "observed",
+    "authority": "shipped-artifact",
+    "environment": null,
+    "limitations": [
+      "Results depend on Hopper's completed static analysis."
+    ],
+    "locations": [],
+    "evidence_links": [],
+    "analysis_profile": {
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:b6eb364804103063c8d25b12d10a74c149519f319abdfe842729fbc10309416f"
+      },
+      "parameters": {
+        "target_kind": "executable",
+        "target_format": "mach-o",
+        "architecture": "arm64",
+        "available_architectures": [
+          "arm64",
+          "x86_64"
+        ],
+        "loader": {
+          "source": "derived",
+          "argument_count": 5,
+          "arguments_sha256": "3d087b67854a940e6bde79429b91f25be2ce3da695d6d7c08ee2dde525b442d5"
+        }
+      },
+      "digest": "200237409d834e89f24749660d6257638efc38b9fadb154f4a4348d885b1c1db"
+    }
+  }
+}

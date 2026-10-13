@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-11",
+  "recorded_utc": "2026-10-10 23:03:56 UTC",
+  "source": {
+    "raw_sha256": "69217f2925507929bd9fccd62d33fb30c9be74a153df50d5c9ad32bc27b01662"
+  },
+  "artifact_sha256": "2c1e80a0c2f716229332411903ed9b12f081668d85b59af1beae6e9f87989c3f",
+  "database_sha256": "7c9eb5c4f743952b703b713a374de3ae1a8d3c6879f5deb1f19c5e4f0a5e54a7",
+  "document": "libapplegpu-nt",
+  "instruction_set": "host ARM64, not GPU ISA",
+  "method": "ARM64 assembly of the static option constructors; Hopper pseudocode omits the byte stores that set these defaults",
+  "defaults": [
+    {
+      "option": "misched-regpressure",
+      "option_object": "0x4bdad98",
+      "value_storage": "0x4bdae18",
+      "constructor": "0x1412cd8",
+      "static_initial_value": true,
+      "assembly_chain": [
+        "0x1412cf4 mov w23,#1",
+        "0x1412e84 strb w23,stack var_64",
+        "0x1412ea4 call 0x11de26c",
+        "0x11de380..0x11de398 initializer pointer byte copied to option +0x80/+0x90"
+      ],
+      "consumer": "0xa790c4 ldrb value, 0xa790c8 tbz bit0",
+      "consumer_function": "0xa78fe0"
+    },
+    {
+      "option": "enable-deferred-spilling",
+      "option_object": "0x4bdd748",
+      "value_storage": null,
+      "constructor": "0x1432e14",
+      "static_initial_value": false,
+      "assembly_chain": [
+        "0x1433040 strb wzr,stack var_FC",
+        "0x1433044 str x24 initializer pointer",
+        "0x1433064 call 0x11de26c"
+      ],
+      "consumer": "not yet traced",
+      "consumer_function": null
+    }
+  ],
+  "negative_search": [
+    {
+      "document": "AGXMetalG17X",
+      "patterns": [
+        "gpuCompilerSPIOptions|driverCompilerOptions|additionalCompilerArguments",
+        "compiler.?options|compiler.?flags|compiler.?arguments|register.?pressure|deferred.?spill"
+      ],
+      "matches": 0,
+      "scope": "indexed strings only; not a proof that Metal.framework selectors or macOS interfaces are absent"
+    }
+  ],
+  "limitations": [
+    "Static constructor initialization is not the live pipeline's option state.",
+    "Runtime service may override options; no accepted flag path verified.",
+    "No M5 shader opcode decoding or hardware scheduler semantics established.",
+    "Hopper pseudocode omits byte stores that change apparent defaults; assembly was used for the initialization conclusions.",
+    "REA procedure_pseudo_code RPCs with omitted document remain pending; explicit-document native Hopper tools completed."
+  ]
+}

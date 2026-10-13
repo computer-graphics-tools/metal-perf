@@ -1,0 +1,200 @@
+Checked: 2026-10-10. Compile-only probe; no GPU dispatch or performance measurement.
+
+Source: ~/Desktop/metal4-async-copy-demo/shaders/copy.metal copied without modification to the owned scratch directory.
+
+Apple metal version 32023.921 (metalfe-32023.921.6)
+
+Commands and exit status:
+
+xcrun metal -std=metal4.0 -O2 -S -emit-llvm -c copy.metal -o copy.ll => 0
+
+Bun: verify declaration and call presence for @demo_copy and @demo_wait, replace both exact symbols with typed AIR names => 0
+
+xcrun metal -std=metal4.0 -O2 -c copy-direct.metal -o copy-direct.air => 1 (expected rejection)
+
+xcrun air-as copy-linked.ll -o copy.air => 0
+
+xcrun metallib copy.air -o copy.metallib => 0
+
+xcrun air-objdump --metallib --all-headers copy.metallib => 0
+
+xcrun --find air-dis => 72, unavailable; no llvm-dis fallback assumed
+
+Artifacts:
+[
+  {
+    "name": "copy.metal",
+    "bytes": 1041,
+    "sha256": "1a2c2353248ab14f2ebd812a4ca14cd1b9cb3f40e76a63b2d97cea6279ed4e03"
+  },
+  {
+    "name": "copy.ll",
+    "bytes": 9113,
+    "sha256": "9dcbea1322eb2b56afea166fc144c1f52d3624a006a29a5492718f7c931ee3bf"
+  },
+  {
+    "name": "copy-linked.ll",
+    "bytes": 9211,
+    "sha256": "2b9c0f0d5bc534ca61ef2bbd79c8d2d0b550c24ce115c7adf254db14c6b7d684"
+  },
+  {
+    "name": "copy.air",
+    "bytes": 5184,
+    "sha256": "4efd104ed9dadb4f56ffef43c6e3891071c5fc3c1b3b4cd1abb19df76092d1dd"
+  },
+  {
+    "name": "copy.metallib",
+    "bytes": 5280,
+    "sha256": "0ffe757e346e22cc7421e9e8d720e8c678d460b91c1c272073121a5d7e7b35dd"
+  }
+]
+
+Typed AIR excerpts:
+target triple = "air64_v29-apple-macosx27.0.0"
+  %35 = tail call %struct.copy_event* @air.simdgroup_async_copy_2d.read.p3i8.p1i8(i64 noundef 4, i64 noundef 4, i8 addrspace(3)* noundef bitcast ([1024 x float] addrspace(3)* @_ZZ10async_copyPU9MTLdeviceKfPU9MTLdevicefPU11MTLconstantKjjE4tile to i8 addrspace(3)*), i64 noundef %10, i64 noundef 1, <2 x i64> noundef %18, i8 addrspace(1)* noundef %19, i64 noundef %21, i64 noundef 1, <2 x i64> noundef %26, <2 x i64> noundef %34, i32 noundef 0) #5
+declare %struct.copy_event* @air.simdgroup_async_copy_2d.read.p3i8.p1i8(i64 noundef, i64 noundef, i8 addrspace(3)* noundef, i64 noundef, i64 noundef, <2 x i64> noundef, i8 addrspace(1)* noundef, i64 noundef, i64 noundef, <2 x i64> noundef, <2 x i64> noundef, i32 noundef) local_unnamed_addr #2
+declare void @air.wait_simdgroup_events(i32 noundef, %struct.copy_event** noundef) local_unnamed_addr #2
+declare void @air.wg.barrier(i32, i32, i32) local_unnamed_addr #3
+!air.version = !{!20}
+!air.language_version = !{!21}
+!20 = !{i32 2, i32 9, i32 0}
+!21 = !{!"Metal", i32 4, i32 0, i32 0}
+
+Direct declaration failure:
+<scratch>/copy-direct.metal:7:65: error: illegal string literal in 'asm'
+    const device void*, ulong, ulong, ulong2, long2, int) __asm("air.simdgroup_async_copy_2d.read.p3i8.p1i8");
+                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<scratch>/copy-direct.metal:8:48: error: illegal string literal in 'asm'
+void demo_wait(int, thread copy_event**) __asm("air.wait_simdgroup_events");
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+<scratch>/copy-direct.metal:16:30: error: use of undeclared identifier 'demo_copy'
+  thread copy_event* event = demo_copy(sizeof(float), alignof(float), tile,
+                             ^
+<scratch>/copy-direct.metal:20:3: error: use of undeclared identifier 'demo_wait'
+  demo_wait(1, events);
+  ^
+4 errors generated.
+
+
+Observed MTLB header bytes (0..87): 4d544c4201800200090000811b000000a01400000000000058000000000000008000000000000000e0000000000000000800000000000000e8000000000000000800000000000000f000000000000000b013000000000000
+
+Module wrapper bytes at 240: dec0170b00000000140000009c130000ffffffff4243c0de3514000003000000620c3024
+
+Raw u64 header fields: [{"offset":16,"value":"5280"},{"offset":24,"value":"88"},{"offset":32,"value":"128"},{"offset":40,"value":"224"},{"offset":48,"value":"8"},{"offset":56,"value":"232"},{"offset":64,"value":"8"},{"offset":72,"value":"240"},{"offset":80,"value":"5040"}]
+
+Limitations: packaging is not GPU correctness or ISA validation. Scratch artifacts are ephemeral; SHA identities above bind this recorded probe.
+<scratch>/copy.metallib:
+MetalLib Header:
+MagicWord: MTLB
+MacOSTarget: 1
+FileMajorVersion: 1
+FileMinorVersion: 2
+FileBugFixVersion: 9
+FileType: METALLIB_EXECUTE
+Arch64Bit:
+Platform: MACOS
+PlatformMajor: 27
+PlatformMinor: 
+PlatformUpdate: 
+FileSize: 0x14a0
+FunctionListOffset: 0x58
+FunctionListSize: 0x84
+PublicMetadataOffset: 0xe0
+PublicMetadataSize: 0x8
+PrivateMetadataOffset: 0xe8
+PrivateMetadataSize: 0x8
+ModuleListOffset: 0xf0
+ModuleListSize: 0x13b0
+
+Offline compiler diagnostics, checked 2026-10-10. No dispatch or accepted timing.
+
+Sources: public control is b[i] = a[i] FP32; private candidate is typed copy probe described above.
+
+Pipeline config:
+{
+  "libraries": {
+    "paths": [{ "label": "Copy", "path": "<scratch>/copy.metallib" }]
+  },
+  "pipelines": {
+    "compute_pipelines": [{ "compute_function": "alias:Copy#async_copy" }]
+  }
+}
+
+
+Command: xcrun metal-tt copy.metallib copy.mtlp-json -target air64-apple-macosx27.0 -gpu-family apple10 -disable-disk-cache -o copy.binary.metallib => 1
+
+applegpu-nt: note: Encountered unlowered function call to air.simdgroup_async_copy_2d.read.noholes. Verify device or GPU architecture supports this feature
+applegpu-nt: error: plugin '/private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.266.1.q2kph2/Metal.xctoolchain/usr/metal/32023/lib/wrapper-nt.dylib' cannot emit pipeline
+air-tt: applegpu-nt command failed
+air-tt: air-tt command failed
+
+
+Verbose trace identified first emission target applegpu_g17g; no runtime M5-Max compiler target mapping established.
+
+Command: same private candidate with -arch applegpu_g17d instead of -gpu-family apple10 => 1
+
+applegpu-nt: note: Encountered unlowered function call to air.simdgroup_async_copy_2d.read.noholes. Verify device or GPU architecture supports this feature
+applegpu-nt: error: plugin '/private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.266.1.q2kph2/Metal.xctoolchain/usr/metal/32023/lib/wrapper-nt.dylib' cannot emit pipeline
+air-tt: applegpu-nt command failed
+air-tt: air-tt command failed
+
+
+Public control metal -c, metallib => 0. metal-tt with same Apple10 config/filter => 0.
+
+metal-lipo control.binary.metallib -archs => applegpu_g17g applegpu_g17s applegpu_g17d applegpu_g18g applegpu_g18m applegpu_g19p
+
+metal-lipo control.binary.metallib -thin applegpu_g17d -output control-g17d.bin => 0
+
+air-objdump --disassemble --arch-name=agx3 control-g17d.bin => 1
+
+
+<scratch>/control-g17d.bin:	file format mach-o 64-bit apple gpu
+/private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.266.1.q2kph2/Metal.xctoolchain/usr/metal/current/bin/air-objdump: error: '<scratch>/control-g17d.bin': no instruction printer for target agx3---macho
+
+
+air-objdump --version advertises agx1, agx2, agx3 registered targets; registration did not supply an AGX3 instruction printer.
+
+IORegistry observation: AGXAcceleratorG17X, MetalPluginName AGXMetalG17X, MetalPluginClassName AGXG17CDevice. No mapping from those strings to an exact applegpu arch is inferred.
+
+Artifacts:
+[
+  {
+    "name": "copy.mtlp-json",
+    "bytes": 212,
+    "sha256": "ab4701f2506a3347b7747edd7e8641c71eccd86aa7c75f72b6ecabf760769b5d"
+  },
+  {
+    "name": "control.metal",
+    "bytes": 247,
+    "sha256": "7d8091fabcfb8c36c34a20d10b38da80cb03071d4ef0393b7db29b322956940f"
+  },
+  {
+    "name": "control.mtlp-json",
+    "bytes": 223,
+    "sha256": "e8e76f193afc07c9652de085502fbbbc2a9ac4d43046f2f59428ce6799e369a8"
+  },
+  {
+    "name": "control.air",
+    "bytes": 3488,
+    "sha256": "679c6124a6da1412a367762d966104f3c16a949bd262f8d02b01eb5fbd13853e"
+  },
+  {
+    "name": "control.metallib",
+    "bytes": 3618,
+    "sha256": "b1d67e9a016a2f607298aa5196020e5010e71e049fbdf4ebea9d1580c8ff16ef"
+  },
+  {
+    "name": "control.binary.metallib",
+    "bytes": 42896,
+    "sha256": "e65d8c53513841c6684fa83418df68c4eed34a2a1c90147039fa3d842eddd7f7"
+  },
+  {
+    "name": "control-g17d.bin",
+    "bytes": 7120,
+    "sha256": "8f4243b0736cdbdc4e13bfa26b6e5674ee273eea71230f79233974414992898f"
+  }
+]
+
+Current metal-tt accepts -h / -help, rejects --help (malformed command line). No installed metal-tt man entry. Official configuration docs and -h used.
+
+Limitations: offline failure is scoped to this generated module and pipeline config; it does not establish that runtime Metal 4 rejects every private copy. Public control proves the offline tool route is functional, not performance equivalence.

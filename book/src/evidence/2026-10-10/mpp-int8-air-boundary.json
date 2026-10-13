@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-10",
+  "workload": "W4 G64 asymmetric weights, A8 activations, M=16, N=34816, K=5120",
+  "candidate": {
+    "family": "mpp",
+    "params": {
+      "air_recipe": "none",
+      "relaxed_precision": false,
+      "right_operand": "int8_dot",
+      "scope": "simdgroups4",
+      "tile_k": 64,
+      "tile_m": 32,
+      "tile_n": 64,
+      "walk": "morton"
+    }
+  },
+  "build_key": "6a88f918949cffdcdc79bfecea9095566211c850b6438878266814276d3d56dc",
+  "air_text": "frontend AIR of the build key below (file not retained)",
+  "air_sha256": "eddd741fe7541f18402af8e2cfca268565975053e887a79c3189b4362423c278",
+  "observations": [
+    {
+      "lines": [
+        16,
+        38
+      ],
+      "description": "alloca for descriptors, arrays and deferred cooperative storage size queries"
+    },
+    {
+      "line": 289,
+      "symbol": "__tensorops_impl_matmul2d_op_run_cooperative_dv_i8_tg_i8_i32_v2",
+      "description": "typed device-int8 and threadgroup-int8 operands with int32 result, private runtime implementation symbol emitted by public MPP API"
+    },
+    {
+      "lines": [
+        401,
+        406
+      ],
+      "description": "valid-element and coordinate accessor calls retained in frontend AIR"
+    },
+    {
+      "line": 630,
+      "attributes": "convergent nobuiltin nounwind \"no-builtins\"",
+      "description": "Accessor/runtime calls retain opaque semantics at this frontend stage"
+    }
+  ],
+  "interpretation": "A concrete AIR boundary for inspecting descriptor and coordinate lowering. Native profile confirms NAX activity for this candidate, but AIR allocations/accessors alone do not prove native spills or their cause.",
+  "limitations": [
+    "Frontend AIR, before target-specific linking/lowering",
+    "No readnone/readonly/noalias attributes or fixed layout can be guessed from a name",
+    "Native instruction decoding unavailable for this M5 target",
+    "Any custom AIR changes need typed verification, numerical checks and independent timing"
+  ],
+  "redaction": "2026-10-13: an engine-specific workload label and a deleted artifact path were replaced."
+}

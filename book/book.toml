@@ -1,0 +1,9 @@
+[book]
+title = "Apple M5 GPU compute: research notes"
+authors = ["Eugene Bokhan"]
+language = "en"
+src = "src"
+
+[build]
+build-dir = "build"
+create-missing = false

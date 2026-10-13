@@ -1,0 +1,113 @@
+# Toolchain and device snapshot, 2026-10-10 (no serial numbers, UUIDs or battery ids)
+# Every line below is command output; commands are in '$ ' lines.
+
+$ date -u
+2026-10-10T14:00:02Z
+
+$ sw_vers
+ProductName:		macOS
+ProductVersion:		27.0.1
+BuildVersion:		26A434
+
+$ sysctl -n machdep.cpu.brand_string hw.model hw.memsize
+Apple M5 Max
+Mac17,7
+137438953472
+$ sysctl hw.perflevel0.name hw.perflevel0.logicalcpu hw.perflevel1.name hw.perflevel1.logicalcpu
+hw.perflevel0.name: Super
+hw.perflevel0.logicalcpu: 6
+hw.perflevel1.name: Performance
+hw.perflevel1.logicalcpu: 12
+
+$ system_profiler SPDisplaysDataType | grep -E "Chipset|Total Number of Cores|Metal Support"
+      Chipset Model: Apple M5 Max
+      Total Number of Cores: 40
+      Metal Support: Metal 4
+
+$ ioreg -r -c AGXAccelerator -d 1 | grep -E "IOClass|gpu-core-count"
+      "gpu-core-count" = 40
+      "IOClass" = "AGXAcceleratorG17X"
+
+$ xcodebuild -version; xcode-select -p; xcrun --show-sdk-version; xcrun --show-sdk-build-version
+Xcode 27.0
+Build version 27A266a
+/Applications/Xcode.app/Contents/Developer
+27.0
+26A425
+
+$ xcrun metal --version
+Apple metal version 32023.921 (metalfe-32023.921.6)
+Target: air64-apple-darwin27.0.0
+Thread model: posix
+InstalledDir: com.apple.MobileAsset.MetalToolchain-v27.1.266.1.q2kph2/Metal.xctoolchain/usr/metal/current/bin
+
+$ xcrun --find gpucapture; xcrun --find gpudebug; xcrun --find metalperftrace
+/usr/bin/gpucapture
+/usr/bin/gpudebug
+/usr/bin/metalperftrace
+$ gpucapture --version; gpudebug --version
+2027.0.39
+gpudebug 1.0
+# metalperftrace has no --version flag (prints usage). Man page footer: "macOS 27.0  May 7, 2026"
+$ xcrun xctrace version
+xctrace version 27.0 (27A266a)
+$ xcrun xctrace list templates (Metal/power/CPU-relevant)
+CPU Counters
+Game Performance
+Game Performance Overview
+Metal System Trace
+Power Profiler
+Processor Trace
+Time Profiler
+$ xcrun xctrace list instruments (GPU/power/thermal-relevant)
+GPU
+Metal Application
+Metal GPU Counters
+Metal Performance Overview
+Metal Resource Events
+Power Profiler
+Thermal State
+
+$ rustc --version; cargo --version; uv --version; bun --version
+rustc 1.99.0 (b940084d7 2026-09-28)
+cargo 1.99.0 (5f94df478 2026-08-27)
+uv 0.13.0 (Homebrew 2026-10-09 aarch64-apple-darwin)
+1.4.3
+
+$ pmset -g batt | head -1
+Now drawing from 'AC Power'
+$ pmset -g custom | grep -E "Power:|powermode"
+Battery Power:
+ powermode            1
+AC Power:
+ powermode            2
+# pmset(1) does not document powermode; value meanings are unverified.
+$ pmset -g therm
+Note: No thermal warning level has been recorded
+Note: No performance warning level has been recorded
+Note: No CPU power status has been recorded
+$ which powermetrics  # requires sudo; not run
+/usr/bin/powermetrics
+
+$ xcrun swift <scratch>/device-caps.swift  # MTLDevice/ProcessInfo queries, no GPU work
+name: Apple M5 Max
+hasUnifiedMemory: true
+recommendedMaxWorkingSetSize_GiB: 107.52000427246094
+maxThreadgroupMemoryLength: 32768
+maxThreadsPerThreadgroup: 1024 1024 1024
+maxBufferLength_GiB: 80.63999938964844
+supportsFamily.apple9: true
+supportsFamily.apple10: true
+supportsFamily.apple11: false
+supportsFamily.metal3: true
+supportsFamily.metal4: true
+supportsCounterSampling.stage: true
+supportsCounterSampling.draw: false
+supportsCounterSampling.dispatch: false
+supportsCounterSampling.tileDispatch: false
+supportsCounterSampling.blit: false
+counterSets: ["timestamp[GPUTimestamp]"]
+timestampFrequency_Hz: 24000000
+timestampHeapEntryBytes: 8
+thermalState: 0 (0 nominal,1 fair,2 serious,3 critical)
+isLowPowerModeEnabled: false

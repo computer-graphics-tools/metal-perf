@@ -1,0 +1,425 @@
+{
+  "trimmed": "Trimmed 2026-10-13: Hopper assembly and pseudocode bodies of this Apple binary were removed. Symbols, addresses, basic-block ranges, call lists and summaries are kept. The untrimmed result is not redistributed.",
+  "summary": "The routine calls sub_ac2fe8, allocates two buffers with malloc, iterates over collected records and returns a count; this suggests dynamically assembled architecture information.",
+  "result": {
+    "procedure": {
+      "address": "0x1a1b10",
+      "name": "_AIRNTGetSupportedArchs",
+      "classification": null,
+      "body": {
+        "available": false,
+        "reason": "Hopper's public Python API does not expose complete function body ranges"
+      },
+      "signature": "function _AIRNTGetSupportedArchs",
+      "locals": []
+    },
+    "comments": [],
+    "callers": [],
+    "callees": [],
+    "incoming_references": [
+      {
+        "source_address": "0x1a1b94",
+        "target_address": "0x1a1ba8",
+        "source_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "target_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "kind": {
+          "available": false,
+          "reason": "Hopper's public Python API does not classify reference kinds"
+        }
+      },
+      {
+        "source_address": "0x1a1ba0",
+        "target_address": "0x1a1b98",
+        "source_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "target_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "kind": {
+          "available": false,
+          "reason": "Hopper's public Python API does not classify reference kinds"
+        }
+      },
+      {
+        "source_address": "0x1a1ba4",
+        "target_address": "0x1a1bbc",
+        "source_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "target_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "kind": {
+          "available": false,
+          "reason": "Hopper's public Python API does not classify reference kinds"
+        }
+      },
+      {
+        "source_address": "0x1a1bb8",
+        "target_address": "0x1a1ba8",
+        "source_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "target_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "kind": {
+          "available": false,
+          "reason": "Hopper's public Python API does not classify reference kinds"
+        }
+      },
+      {
+        "source_address": "0x1a1bc8",
+        "target_address": "0x1a1b84",
+        "source_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "target_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "kind": {
+          "available": false,
+          "reason": "Hopper's public Python API does not classify reference kinds"
+        }
+      },
+      {
+        "source_address": "0x1a1bd0",
+        "target_address": "0x1a1bd8",
+        "source_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "target_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "kind": {
+          "available": false,
+          "reason": "Hopper's public Python API does not classify reference kinds"
+        }
+      }
+    ],
+    "outgoing_references": [
+      {
+        "source_address": "0x1a1b40",
+        "target_address": "0xac2fe8",
+        "source_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "target_procedure": {
+          "address": "0xac2fe8",
+          "name": "sub_ac2fe8",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "kind": {
+          "available": false,
+          "reason": "Hopper's public Python API does not classify reference kinds"
+        }
+      },
+      {
+        "source_address": "0x1a1b50",
+        "target_address": "0x1655eb8",
+        "source_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "target_procedure": null,
+        "kind": {
+          "available": false,
+          "reason": "Hopper's public Python API does not classify reference kinds"
+        }
+      },
+      {
+        "source_address": "0x1a1b5c",
+        "target_address": "0x1655eb8",
+        "source_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "target_procedure": null,
+        "kind": {
+          "available": false,
+          "reason": "Hopper's public Python API does not classify reference kinds"
+        }
+      },
+      {
+        "source_address": "0x1a1be8",
+        "target_address": "0x206f68",
+        "source_procedure": {
+          "address": "0x1a1b10",
+          "name": "_AIRNTGetSupportedArchs",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "target_procedure": {
+          "address": "0x206f68",
+          "name": "sub_206f68",
+          "classification": null,
+          "body": {
+            "available": false,
+            "reason": "Hopper's public Python API does not expose complete function body ranges"
+          }
+        },
+        "kind": {
+          "available": false,
+          "reason": "Hopper's public Python API does not classify reference kinds"
+        }
+      }
+    ],
+    "referenced_strings": [],
+    "referenced_names": [
+      {
+        "address": "0x206f68",
+        "value": "sub_206f68",
+        "source_address": "0x1a1be8"
+      },
+      {
+        "address": "0xac2fe8",
+        "value": "sub_ac2fe8",
+        "source_address": "0x1a1b40"
+      },
+      {
+        "address": "0x1655eb8",
+        "value": "imp___stubs__malloc",
+        "source_address": "0x1a1b50"
+      },
+      {
+        "address": "0x1655eb8",
+        "value": "imp___stubs__malloc",
+        "source_address": "0x1a1b5c"
+      }
+    ],
+    "basic_blocks": [
+      {
+        "start": "0x1a1b10",
+        "end": "0x1a1b70",
+        "successors": [
+          "0x1a1b74",
+          "0x1a1bd4"
+        ]
+      },
+      {
+        "start": "0x1a1b74",
+        "end": "0x1a1b80",
+        "successors": [
+          "0x1a1b84"
+        ]
+      },
+      {
+        "start": "0x1a1b98",
+        "end": "0x1a1ba0",
+        "successors": [
+          "0x1a1b98",
+          "0x1a1ba4"
+        ]
+      },
+      {
+        "start": "0x1a1ba4",
+        "end": "0x1a1ba4",
+        "successors": [
+          "0x1a1bbc"
+        ]
+      },
+      {
+        "start": "0x1a1bbc",
+        "end": "0x1a1bc8",
+        "successors": [
+          "0x1a1b84",
+          "0x1a1bcc"
+        ]
+      },
+      {
+        "start": "0x1a1b84",
+        "end": "0x1a1b94",
+        "successors": [
+          "0x1a1b98",
+          "0x1a1ba8"
+        ]
+      },
+      {
+        "start": "0x1a1bcc",
+        "end": "0x1a1bd0",
+        "successors": [
+          "0x1a1bd8"
+        ]
+      },
+      {
+        "start": "0x1a1bd8",
+        "end": "0x1a1c00",
+        "successors": []
+      },
+      {
+        "start": "0x1a1ba8",
+        "end": "0x1a1bb8",
+        "successors": [
+          "0x1a1ba8",
+          "0x1a1bbc"
+        ]
+      },
+      {
+        "start": "0x1a1bd4",
+        "end": "0x1a1bd4",
+        "successors": [
+          "0x1a1bd8"
+        ]
+      }
+    ],
+    "native_api": null,
+    "limitations": [
+      "Hopper's public Python API does not classify reference kinds.",
+      "Hopper's public Python API does not expose equivalent external or thunk classification in this dossier.",
+      "Unresolved indirect calls without reported target addresses are not represented as call edges.",
+      "Pseudocode and assembly are provider-specific representations, not original source."
+    ]
+  },
+  "evidence": {
+    "evidence_id": "ev_61a8b5530c7bb1d0f5b1102146996dffcc59126f7cceda60f65831dfd790accc",
+    "subject": {
+      "name": "libapplegpu-nt.dylib",
+      "digest": {
+        "sha256": "2c1e80a0c2f716229332411903ed9b12f081668d85b59af1beae6e9f87989c3f"
+      },
+      "format": "mach-o",
+      "architecture": "arm64",
+      "local_path": "/private/var/run/com.apple.security.cryptexd/mnt/com.apple.MobileAsset.MetalToolchain-v27.1.266.1.q2kph2/Metal.xctoolchain/usr/metal/32023/lib/libapplegpu-nt.dylib"
+    },
+    "provider": {
+      "id": "hopper",
+      "name": "Hopper Disassembler",
+      "version": "launcher-sha256:b6eb364804103063c8d25b12d10a74c149519f319abdfe842729fbc10309416f"
+    },
+    "predicate_type": "rea.analysis",
+    "operation": "analyze_function",
+    "parameters": {
+      "procedure": "0x1a1b10"
+    },
+    "confidence": "observed",
+    "authority": "shipped-artifact",
+    "environment": null,
+    "limitations": [
+      "Results depend on Hopper's completed static analysis."
+    ],
+    "locations": [],
+    "evidence_links": [],
+    "analysis_profile": {
+      "provider": {
+        "id": "hopper",
+        "name": "Hopper Disassembler",
+        "version": "launcher-sha256:b6eb364804103063c8d25b12d10a74c149519f319abdfe842729fbc10309416f"
+      },
+      "parameters": {
+        "target_kind": "executable",
+        "target_format": "mach-o",
+        "architecture": "arm64",
+        "available_architectures": [
+          "arm64",
+          "x86_64"
+        ],
+        "loader": {
+          "source": "derived",
+          "argument_count": 5,
+          "arguments_sha256": "3d087b67854a940e6bde79429b91f25be2ce3da695d6d7c08ee2dde525b442d5"
+        }
+      },
+      "digest": "200237409d834e89f24749660d6257638efc38b9fadb154f4a4348d885b1c1db"
+    }
+  }
+}

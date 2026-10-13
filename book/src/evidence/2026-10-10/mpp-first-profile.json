@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-10",
+  "device": "Apple M5 Max",
+  "architecture": "applegpu_g17s",
+  "settings": {
+    "execution": "serial",
+    "gpu_state_requested": "default",
+    "recorded_profile_state": "medium",
+    "acceptance": false
+  },
+  "packed": {
+    "shape": {
+      "m": 8,
+      "n": 1024,
+      "k": 1024
+    },
+    "route": "W4 G64 weights dequantized to f32 in the shader",
+    "scope": "simdgroups4",
+    "neural_utilization_percent": 0,
+    "neural_limiter_percent": 0,
+    "shader_stats": {
+      "instructions": 697,
+      "temp_registers": 73,
+      "spilled_bytes": 80,
+      "invocations": 2
+    },
+    "timeline_occupancy_percent": 1.59,
+    "counter_unit": "Percentage of Peak Neural Accelerator Performance",
+    "boundary": "timeline replay counters; no native instruction decoding"
+  },
+  "dense": {
+    "shape": {
+      "m": 64,
+      "n": 4096,
+      "k": 4096
+    },
+    "route": "dense BF16",
+    "scope": "simdgroups4",
+    "neural_utilization_percent": 41.09,
+    "neural_limiter_percent": 43.04,
+    "shader_stats": {
+      "instructions": 586,
+      "temp_registers": 60,
+      "spilled_bytes": 80,
+      "invocations": 2
+    },
+    "correctness": "1/1 full-output check passed",
+    "counter_unit": "Percentage of Peak Neural Accelerator Performance"
+  },
+  "limitations": [
+    "diagnostic replay, not uninstrumented timing",
+    "positive control confirms counter availability and dense NAX activity",
+    "compiler spill/register statistics are distinct from measured spill traffic",
+    "packed shader threadgroup-memory statistic0 does not override pipeline static allocation32768",
+    "not a promise of physical peak or 100% utilization"
+  ],
+  "redaction": "2026-10-13: an engine-specific route label and deleted trace paths were replaced or removed."
+}

@@ -1,0 +1,1361 @@
+{
+  "date": "2026-10-10",
+  "document": "AGXMetalG17X",
+  "limitations": [
+    "Host command encoding; not hardware SIMD scheduling",
+    "329 basic blocks; pseudocode not requested",
+    "Unresolved call targets remain"
+  ],
+  "trimmed": "Trimmed 2026-10-13: Hopper assembly and pseudocode bodies of this Apple binary were removed. Symbols, addresses, basic-block ranges, call lists and summaries are kept. The untrimmed result is not redistributed.",
+  "procedure_search": {
+    "0x218732084": "__ZN3AGX14ComputeContextINS_6HAL3008EncodersENS1_7ClassesENS1_10ObjClassesENS1_19CommandEncodingNextENS1_32EncoderComputeServiceClassesNextEE20performEnqueueKernelE19eAGXDataBufferPoolsyjPy"
+  },
+  "procedure": {
+    "name": "__ZN3AGX14ComputeContextINS_6HAL3008EncodersENS1_7ClassesENS1_10ObjClassesENS1_19CommandEncodingNextENS1_32EncoderComputeServiceClassesNextEE20performEnqueueKernelE19eAGXDataBufferPoolsyjPy",
+    "entrypoint": "0x218732084",
+    "length": 7772,
+    "basicblock_count": 329,
+    "basicblocks": [
+      {
+        "from": "0x218732084",
+        "to": "0x2187320d4"
+      },
+      {
+        "from": "0x2187320d8",
+        "to": "0x218732120"
+      },
+      {
+        "from": "0x218732124",
+        "to": "0x218732128"
+      },
+      {
+        "from": "0x21873212c",
+        "to": "0x21873213c"
+      },
+      {
+        "from": "0x218732140",
+        "to": "0x218732148"
+      },
+      {
+        "from": "0x21873214c",
+        "to": "0x218732168"
+      },
+      {
+        "from": "0x218732170",
+        "to": "0x218732190"
+      },
+      {
+        "from": "0x218732194",
+        "to": "0x2187321a4"
+      },
+      {
+        "from": "0x2187321a8",
+        "to": "0x2187321d4"
+      },
+      {
+        "from": "0x2187321d8",
+        "to": "0x2187321e8"
+      },
+      {
+        "from": "0x2187321ec",
+        "to": "0x218732214"
+      },
+      {
+        "from": "0x21873221c",
+        "to": "0x218732230"
+      },
+      {
+        "from": "0x218732234",
+        "to": "0x218732238"
+      },
+      {
+        "from": "0x21873223c",
+        "to": "0x218732240"
+      },
+      {
+        "from": "0x218732244",
+        "to": "0x218732248"
+      },
+      {
+        "from": "0x21873224c",
+        "to": "0x21873225c"
+      },
+      {
+        "from": "0x21873226c",
+        "to": "0x21873226c"
+      },
+      {
+        "from": "0x218732270",
+        "to": "0x21873229c"
+      },
+      {
+        "from": "0x2187322d8",
+        "to": "0x2187322f8"
+      },
+      {
+        "from": "0x218732320",
+        "to": "0x218732338"
+      },
+      {
+        "from": "0x218732364",
+        "to": "0x218732374"
+      },
+      {
+        "from": "0x21873237c",
+        "to": "0x218732388"
+      },
+      {
+        "from": "0x21873238c",
+        "to": "0x218732394"
+      },
+      {
+        "from": "0x218732398",
+        "to": "0x2187323a0"
+      },
+      {
+        "from": "0x2187323a4",
+        "to": "0x2187323fc"
+      },
+      {
+        "from": "0x218732400",
+        "to": "0x218732440"
+      },
+      {
+        "from": "0x218732448",
+        "to": "0x21873245c"
+      },
+      {
+        "from": "0x218732460",
+        "to": "0x218732468"
+      },
+      {
+        "from": "0x21873246c",
+        "to": "0x218732470"
+      },
+      {
+        "from": "0x218732474",
+        "to": "0x218732480"
+      },
+      {
+        "from": "0x218732484",
+        "to": "0x218732484"
+      },
+      {
+        "from": "0x218732490",
+        "to": "0x218732494"
+      },
+      {
+        "from": "0x218732498",
+        "to": "0x2187324ac"
+      },
+      {
+        "from": "0x2187324b0",
+        "to": "0x2187324d4"
+      },
+      {
+        "from": "0x2187324d8",
+        "to": "0x21873250c"
+      },
+      {
+        "from": "0x218732514",
+        "to": "0x218732538"
+      },
+      {
+        "from": "0x21873254c",
+        "to": "0x21873254c"
+      },
+      {
+        "from": "0x218732550",
+        "to": "0x218732560"
+      },
+      {
+        "from": "0x218732580",
+        "to": "0x21873259c"
+      },
+      {
+        "from": "0x2187325a0",
+        "to": "0x2187325a8"
+      },
+      {
+        "from": "0x2187325ac",
+        "to": "0x2187325b4"
+      },
+      {
+        "from": "0x2187325b8",
+        "to": "0x2187325c0"
+      },
+      {
+        "from": "0x2187325c4",
+        "to": "0x2187325d4"
+      },
+      {
+        "from": "0x2187325d8",
+        "to": "0x21873262c"
+      },
+      {
+        "from": "0x21873265c",
+        "to": "0x218732660"
+      },
+      {
+        "from": "0x218732540",
+        "to": "0x218732548"
+      },
+      {
+        "from": "0x218732630",
+        "to": "0x218732630"
+      },
+      {
+        "from": "0x218732664",
+        "to": "0x218732668"
+      },
+      {
+        "from": "0x218732634",
+        "to": "0x218732658"
+      },
+      {
+        "from": "0x21873253c",
+        "to": "0x21873253c"
+      },
+      {
+        "from": "0x218732564",
+        "to": "0x218732564"
+      },
+      {
+        "from": "0x218732568",
+        "to": "0x21873257c"
+      },
+      {
+        "from": "0x21873266c",
+        "to": "0x21873267c"
+      },
+      {
+        "from": "0x2187326a0",
+        "to": "0x2187326cc"
+      },
+      {
+        "from": "0x2187326d0",
+        "to": "0x2187326d4"
+      },
+      {
+        "from": "0x2187326f0",
+        "to": "0x218732700"
+      },
+      {
+        "from": "0x218732724",
+        "to": "0x218732748"
+      },
+      {
+        "from": "0x21873274c",
+        "to": "0x218732754"
+      },
+      {
+        "from": "0x218732780",
+        "to": "0x218732784"
+      },
+      {
+        "from": "0x218732788",
+        "to": "0x2187327a0"
+      },
+      {
+        "from": "0x2187327a4",
+        "to": "0x2187327cc"
+      },
+      {
+        "from": "0x2187327d0",
+        "to": "0x2187327e0"
+      },
+      {
+        "from": "0x2187327e4",
+        "to": "0x218732838"
+      },
+      {
+        "from": "0x21873283c",
+        "to": "0x21873287c"
+      },
+      {
+        "from": "0x218732880",
+        "to": "0x218732880"
+      },
+      {
+        "from": "0x218732898",
+        "to": "0x2187328c8"
+      },
+      {
+        "from": "0x2187328e8",
+        "to": "0x2187328f4"
+      },
+      {
+        "from": "0x2187328f8",
+        "to": "0x2187328fc"
+      },
+      {
+        "from": "0x218732900",
+        "to": "0x218732900"
+      },
+      {
+        "from": "0x218732904",
+        "to": "0x218732908"
+      },
+      {
+        "from": "0x21873290c",
+        "to": "0x218732920"
+      },
+      {
+        "from": "0x218732950",
+        "to": "0x218732954"
+      },
+      {
+        "from": "0x218732964",
+        "to": "0x218732974"
+      },
+      {
+        "from": "0x218732978",
+        "to": "0x21873297c"
+      },
+      {
+        "from": "0x218732980",
+        "to": "0x218732984"
+      },
+      {
+        "from": "0x21873298c",
+        "to": "0x2187329fc"
+      },
+      {
+        "from": "0x218732a00",
+        "to": "0x218732a34"
+      },
+      {
+        "from": "0x218732a38",
+        "to": "0x218732a5c"
+      },
+      {
+        "from": "0x218732a70",
+        "to": "0x218732af4"
+      },
+      {
+        "from": "0x218732af8",
+        "to": "0x218732b04"
+      },
+      {
+        "from": "0x218732b08",
+        "to": "0x218732b0c"
+      },
+      {
+        "from": "0x218732b10",
+        "to": "0x218732b14"
+      },
+      {
+        "from": "0x218732b18",
+        "to": "0x218732b30"
+      },
+      {
+        "from": "0x218732b5c",
+        "to": "0x218732b7c"
+      },
+      {
+        "from": "0x218732bf8",
+        "to": "0x218732c34"
+      },
+      {
+        "from": "0x218732c38",
+        "to": "0x218732c4c"
+      },
+      {
+        "from": "0x218732c54",
+        "to": "0x218732c60"
+      },
+      {
+        "from": "0x218732c7c",
+        "to": "0x218732c9c"
+      },
+      {
+        "from": "0x218732cb4",
+        "to": "0x218732cbc"
+      },
+      {
+        "from": "0x218732cc0",
+        "to": "0x218732cc4"
+      },
+      {
+        "from": "0x218732cc8",
+        "to": "0x218732ce0"
+      },
+      {
+        "from": "0x218732ce4",
+        "to": "0x218732ce8"
+      },
+      {
+        "from": "0x218732f34",
+        "to": "0x218732f34"
+      },
+      {
+        "from": "0x218732f38",
+        "to": "0x218732f4c"
+      },
+      {
+        "from": "0x218732f50",
+        "to": "0x218732f58"
+      },
+      {
+        "from": "0x218732f5c",
+        "to": "0x218732f60"
+      },
+      {
+        "from": "0x218732f64",
+        "to": "0x218732f64"
+      },
+      {
+        "from": "0x21873338c",
+        "to": "0x218733390"
+      },
+      {
+        "from": "0x218733394",
+        "to": "0x218733398"
+      },
+      {
+        "from": "0x21873339c",
+        "to": "0x2187333a8"
+      },
+      {
+        "from": "0x2187334f4",
+        "to": "0x218733524"
+      },
+      {
+        "from": "0x218733528",
+        "to": "0x21873353c"
+      },
+      {
+        "from": "0x218733540",
+        "to": "0x218733578"
+      },
+      {
+        "from": "0x21873357c",
+        "to": "0x218733598"
+      },
+      {
+        "from": "0x2187335b0",
+        "to": "0x2187335d8"
+      },
+      {
+        "from": "0x2187335e4",
+        "to": "0x2187335f4"
+      },
+      {
+        "from": "0x2187335f8",
+        "to": "0x21873361c"
+      },
+      {
+        "from": "0x218733620",
+        "to": "0x218733630"
+      },
+      {
+        "from": "0x21873378c",
+        "to": "0x2187337a8"
+      },
+      {
+        "from": "0x2187337ac",
+        "to": "0x2187337b0"
+      },
+      {
+        "from": "0x2187337b4",
+        "to": "0x2187337c8"
+      },
+      {
+        "from": "0x2187338ac",
+        "to": "0x2187338d8"
+      },
+      {
+        "from": "0x21873398c",
+        "to": "0x2187339a0"
+      },
+      {
+        "from": "0x2187339a4",
+        "to": "0x2187339ac"
+      },
+      {
+        "from": "0x2187339b0",
+        "to": "0x2187339c4"
+      },
+      {
+        "from": "0x2187339c8",
+        "to": "0x2187339fc"
+      },
+      {
+        "from": "0x218733a00",
+        "to": "0x218733a0c"
+      },
+      {
+        "from": "0x218733a28",
+        "to": "0x218733a38"
+      },
+      {
+        "from": "0x218733a50",
+        "to": "0x218733a54"
+      },
+      {
+        "from": "0x218733a58",
+        "to": "0x218733a6c"
+      },
+      {
+        "from": "0x218733a88",
+        "to": "0x218733a9c"
+      },
+      {
+        "from": "0x218733aa0",
+        "to": "0x218733abc"
+      },
+      {
+        "from": "0x218733e60",
+        "to": "0x218733e60"
+      },
+      {
+        "from": "0x218733e94",
+        "to": "0x218733eb4"
+      },
+      {
+        "from": "0x218733bf4",
+        "to": "0x218733bfc"
+      },
+      {
+        "from": "0x218733ac0",
+        "to": "0x218733ac8"
+      },
+      {
+        "from": "0x218733acc",
+        "to": "0x218733ad8"
+      },
+      {
+        "from": "0x218733a78",
+        "to": "0x218733a78"
+      },
+      {
+        "from": "0x218733adc",
+        "to": "0x218733aec"
+      },
+      {
+        "from": "0x218733af0",
+        "to": "0x218733af8"
+      },
+      {
+        "from": "0x218733afc",
+        "to": "0x218733b04"
+      },
+      {
+        "from": "0x218733b08",
+        "to": "0x218733b10"
+      },
+      {
+        "from": "0x218733b14",
+        "to": "0x218733b54"
+      },
+      {
+        "from": "0x218733b7c",
+        "to": "0x218733b88"
+      },
+      {
+        "from": "0x218733b8c",
+        "to": "0x218733b8c"
+      },
+      {
+        "from": "0x218733ba8",
+        "to": "0x218733bcc"
+      },
+      {
+        "from": "0x218733a70",
+        "to": "0x218733a74"
+      },
+      {
+        "from": "0x218733b90",
+        "to": "0x218733ba4"
+      },
+      {
+        "from": "0x218733b58",
+        "to": "0x218733b78"
+      },
+      {
+        "from": "0x218733a7c",
+        "to": "0x218733a84"
+      },
+      {
+        "from": "0x218733a3c",
+        "to": "0x218733a44"
+      },
+      {
+        "from": "0x218733d10",
+        "to": "0x218733d20"
+      },
+      {
+        "from": "0x218733a10",
+        "to": "0x218733a24"
+      },
+      {
+        "from": "0x218733a48",
+        "to": "0x218733a4c"
+      },
+      {
+        "from": "0x218733cb8",
+        "to": "0x218733cd4"
+      },
+      {
+        "from": "0x218733cd8",
+        "to": "0x218733d0c"
+      },
+      {
+        "from": "0x2187338a8",
+        "to": "0x2187338a8"
+      },
+      {
+        "from": "0x218733810",
+        "to": "0x218733814"
+      },
+      {
+        "from": "0x218733788",
+        "to": "0x218733788"
+      },
+      {
+        "from": "0x2187336b4",
+        "to": "0x2187336ec"
+      },
+      {
+        "from": "0x2187336f0",
+        "to": "0x218733700"
+      },
+      {
+        "from": "0x2187337d0",
+        "to": "0x2187337ec"
+      },
+      {
+        "from": "0x2187337f0",
+        "to": "0x2187337f4"
+      },
+      {
+        "from": "0x2187337f8",
+        "to": "0x21873380c"
+      },
+      {
+        "from": "0x2187338e0",
+        "to": "0x218733914"
+      },
+      {
+        "from": "0x2187338dc",
+        "to": "0x2187338dc"
+      },
+      {
+        "from": "0x218733818",
+        "to": "0x21873381c"
+      },
+      {
+        "from": "0x2187337cc",
+        "to": "0x2187337cc"
+      },
+      {
+        "from": "0x218733634",
+        "to": "0x218733644"
+      },
+      {
+        "from": "0x218733648",
+        "to": "0x21873369c"
+      },
+      {
+        "from": "0x2187336a0",
+        "to": "0x2187336b0"
+      },
+      {
+        "from": "0x218733824",
+        "to": "0x218733838"
+      },
+      {
+        "from": "0x21873383c",
+        "to": "0x218733840"
+      },
+      {
+        "from": "0x218733844",
+        "to": "0x218733858"
+      },
+      {
+        "from": "0x218733924",
+        "to": "0x218733954"
+      },
+      {
+        "from": "0x218733988",
+        "to": "0x218733988"
+      },
+      {
+        "from": "0x218733920",
+        "to": "0x218733920"
+      },
+      {
+        "from": "0x218733898",
+        "to": "0x21873389c"
+      },
+      {
+        "from": "0x218733820",
+        "to": "0x218733820"
+      },
+      {
+        "from": "0x218733704",
+        "to": "0x218733770"
+      },
+      {
+        "from": "0x218733774",
+        "to": "0x218733784"
+      },
+      {
+        "from": "0x218733860",
+        "to": "0x218733874"
+      },
+      {
+        "from": "0x218733878",
+        "to": "0x21873387c"
+      },
+      {
+        "from": "0x218733880",
+        "to": "0x218733894"
+      },
+      {
+        "from": "0x21873395c",
+        "to": "0x218733984"
+      },
+      {
+        "from": "0x218733958",
+        "to": "0x218733958"
+      },
+      {
+        "from": "0x2187338a0",
+        "to": "0x2187338a4"
+      },
+      {
+        "from": "0x21873385c",
+        "to": "0x21873385c"
+      },
+      {
+        "from": "0x21873359c",
+        "to": "0x2187335a8"
+      },
+      {
+        "from": "0x2187335ac",
+        "to": "0x2187335ac"
+      },
+      {
+        "from": "0x2187335dc",
+        "to": "0x2187335e0"
+      },
+      {
+        "from": "0x2187334f0",
+        "to": "0x2187334f0"
+      },
+      {
+        "from": "0x2187333ac",
+        "to": "0x218733408"
+      },
+      {
+        "from": "0x21873340c",
+        "to": "0x218733410"
+      },
+      {
+        "from": "0x218733428",
+        "to": "0x218733434"
+      },
+      {
+        "from": "0x218733438",
+        "to": "0x218733460"
+      },
+      {
+        "from": "0x218733464",
+        "to": "0x21873347c"
+      },
+      {
+        "from": "0x218733480",
+        "to": "0x218733480"
+      },
+      {
+        "from": "0x218733418",
+        "to": "0x218733424"
+      },
+      {
+        "from": "0x218733484",
+        "to": "0x218733490"
+      },
+      {
+        "from": "0x218733494",
+        "to": "0x21873349c"
+      },
+      {
+        "from": "0x2187334a0",
+        "to": "0x2187334bc"
+      },
+      {
+        "from": "0x2187334c8",
+        "to": "0x2187334cc"
+      },
+      {
+        "from": "0x218733414",
+        "to": "0x218733414"
+      },
+      {
+        "from": "0x218733e38",
+        "to": "0x218733e38"
+      },
+      {
+        "from": "0x218733e4c",
+        "to": "0x218733e5c"
+      },
+      {
+        "from": "0x2187334c0",
+        "to": "0x2187334c4"
+      },
+      {
+        "from": "0x2187334d0",
+        "to": "0x2187334ec"
+      },
+      {
+        "from": "0x2187332ac",
+        "to": "0x2187332b0"
+      },
+      {
+        "from": "0x2187332b4",
+        "to": "0x2187332e0"
+      },
+      {
+        "from": "0x2187332e4",
+        "to": "0x2187332ec"
+      },
+      {
+        "from": "0x21873336c",
+        "to": "0x21873336c"
+      },
+      {
+        "from": "0x218733370",
+        "to": "0x218733380"
+      },
+      {
+        "from": "0x218733384",
+        "to": "0x218733388"
+      },
+      {
+        "from": "0x2187332f0",
+        "to": "0x2187332f0"
+      },
+      {
+        "from": "0x2187332f4",
+        "to": "0x218733368"
+      },
+      {
+        "from": "0x218733100",
+        "to": "0x218733158"
+      },
+      {
+        "from": "0x21873315c",
+        "to": "0x218733164"
+      },
+      {
+        "from": "0x2187331c8",
+        "to": "0x2187331d4"
+      },
+      {
+        "from": "0x2187331d8",
+        "to": "0x218733200"
+      },
+      {
+        "from": "0x218733204",
+        "to": "0x21873321c"
+      },
+      {
+        "from": "0x218733220",
+        "to": "0x218733220"
+      },
+      {
+        "from": "0x2187331b8",
+        "to": "0x2187331c4"
+      },
+      {
+        "from": "0x218733224",
+        "to": "0x218733230"
+      },
+      {
+        "from": "0x218733234",
+        "to": "0x218733244"
+      },
+      {
+        "from": "0x218733248",
+        "to": "0x218733264"
+      },
+      {
+        "from": "0x218733298",
+        "to": "0x2187332a8"
+      },
+      {
+        "from": "0x218733270",
+        "to": "0x218733274"
+      },
+      {
+        "from": "0x2187331b4",
+        "to": "0x2187331b4"
+      },
+      {
+        "from": "0x218733268",
+        "to": "0x21873326c"
+      },
+      {
+        "from": "0x218733278",
+        "to": "0x218733294"
+      },
+      {
+        "from": "0x218732ebc",
+        "to": "0x218732ec4"
+      },
+      {
+        "from": "0x218732ec8",
+        "to": "0x218732f30"
+      },
+      {
+        "from": "0x2187330f8",
+        "to": "0x2187330fc"
+      },
+      {
+        "from": "0x218732cec",
+        "to": "0x218732cf4"
+      },
+      {
+        "from": "0x218732cf8",
+        "to": "0x218732d3c"
+      },
+      {
+        "from": "0x218732d40",
+        "to": "0x218732d44"
+      },
+      {
+        "from": "0x218732d5c",
+        "to": "0x218732d68"
+      },
+      {
+        "from": "0x218732d6c",
+        "to": "0x218732d94"
+      },
+      {
+        "from": "0x218732d98",
+        "to": "0x218732db0"
+      },
+      {
+        "from": "0x218732db4",
+        "to": "0x218732db4"
+      },
+      {
+        "from": "0x218732d4c",
+        "to": "0x218732d58"
+      },
+      {
+        "from": "0x218732e74",
+        "to": "0x218732e80"
+      },
+      {
+        "from": "0x218732e84",
+        "to": "0x218732e90"
+      },
+      {
+        "from": "0x218732e94",
+        "to": "0x218732eb0"
+      },
+      {
+        "from": "0x218732f8c",
+        "to": "0x218732fa0"
+      },
+      {
+        "from": "0x218732fa4",
+        "to": "0x218732fb4"
+      },
+      {
+        "from": "0x218732fb8",
+        "to": "0x218732fc4"
+      },
+      {
+        "from": "0x218732fc8",
+        "to": "0x218732fc8"
+      },
+      {
+        "from": "0x218732fcc",
+        "to": "0x218732fd8"
+      },
+      {
+        "from": "0x218732fdc",
+        "to": "0x218732ff0"
+      },
+      {
+        "from": "0x218732ff4",
+        "to": "0x218733008"
+      },
+      {
+        "from": "0x21873300c",
+        "to": "0x21873300c"
+      },
+      {
+        "from": "0x21873301c",
+        "to": "0x21873301c"
+      },
+      {
+        "from": "0x218733020",
+        "to": "0x21873303c"
+      },
+      {
+        "from": "0x218733040",
+        "to": "0x218733044"
+      },
+      {
+        "from": "0x218733048",
+        "to": "0x218733060"
+      },
+      {
+        "from": "0x218733064",
+        "to": "0x218733064"
+      },
+      {
+        "from": "0x218733068",
+        "to": "0x2187330d4"
+      },
+      {
+        "from": "0x2187330d8",
+        "to": "0x2187330d8"
+      },
+      {
+        "from": "0x2187330dc",
+        "to": "0x2187330ec"
+      },
+      {
+        "from": "0x2187330f0",
+        "to": "0x2187330f4"
+      },
+      {
+        "from": "0x218733d68",
+        "to": "0x218733d68"
+      },
+      {
+        "from": "0x218733d6c",
+        "to": "0x218733d7c"
+      },
+      {
+        "from": "0x218733d80",
+        "to": "0x218733d88"
+      },
+      {
+        "from": "0x218733e08",
+        "to": "0x218733e1c"
+      },
+      {
+        "from": "0x218733e20",
+        "to": "0x218733e30"
+      },
+      {
+        "from": "0x218733e34",
+        "to": "0x218733e34"
+      },
+      {
+        "from": "0x218733d8c",
+        "to": "0x218733d8c"
+      },
+      {
+        "from": "0x218733d90",
+        "to": "0x218733e04"
+      },
+      {
+        "from": "0x218733010",
+        "to": "0x218733018"
+      },
+      {
+        "from": "0x218733174",
+        "to": "0x218733188"
+      },
+      {
+        "from": "0x21873318c",
+        "to": "0x218733194"
+      },
+      {
+        "from": "0x218733198",
+        "to": "0x218733198"
+      },
+      {
+        "from": "0x218733168",
+        "to": "0x218733170"
+      },
+      {
+        "from": "0x21873319c",
+        "to": "0x2187331ac"
+      },
+      {
+        "from": "0x2187331b0",
+        "to": "0x2187331b0"
+      },
+      {
+        "from": "0x218732f68",
+        "to": "0x218732f6c"
+      },
+      {
+        "from": "0x218732d48",
+        "to": "0x218732d48"
+      },
+      {
+        "from": "0x218732eb4",
+        "to": "0x218732eb8"
+      },
+      {
+        "from": "0x218732f70",
+        "to": "0x218732f88"
+      },
+      {
+        "from": "0x218732db8",
+        "to": "0x218732df8"
+      },
+      {
+        "from": "0x218732dfc",
+        "to": "0x218732e00"
+      },
+      {
+        "from": "0x218732e18",
+        "to": "0x218732e24"
+      },
+      {
+        "from": "0x218732e28",
+        "to": "0x218732e50"
+      },
+      {
+        "from": "0x218732e54",
+        "to": "0x218732e6c"
+      },
+      {
+        "from": "0x218732e70",
+        "to": "0x218732e70"
+      },
+      {
+        "from": "0x218732e08",
+        "to": "0x218732e14"
+      },
+      {
+        "from": "0x218732e04",
+        "to": "0x218732e04"
+      },
+      {
+        "from": "0x218732ca0",
+        "to": "0x218732cb0"
+      },
+      {
+        "from": "0x218732c64",
+        "to": "0x218732c78"
+      },
+      {
+        "from": "0x218732c50",
+        "to": "0x218732c50"
+      },
+      {
+        "from": "0x218732b40",
+        "to": "0x218732b48"
+      },
+      {
+        "from": "0x218732b54",
+        "to": "0x218732b58"
+      },
+      {
+        "from": "0x218732b4c",
+        "to": "0x218732b50"
+      },
+      {
+        "from": "0x218732b34",
+        "to": "0x218732b3c"
+      },
+      {
+        "from": "0x218732b80",
+        "to": "0x218732bf4"
+      },
+      {
+        "from": "0x218732a6c",
+        "to": "0x218732a6c"
+      },
+      {
+        "from": "0x218732a60",
+        "to": "0x218732a68"
+      },
+      {
+        "from": "0x218732988",
+        "to": "0x218732988"
+      },
+      {
+        "from": "0x218733e64",
+        "to": "0x218733e90"
+      },
+      {
+        "from": "0x218732924",
+        "to": "0x218732930"
+      },
+      {
+        "from": "0x218732958",
+        "to": "0x218732960"
+      },
+      {
+        "from": "0x21873294c",
+        "to": "0x21873294c"
+      },
+      {
+        "from": "0x2187328cc",
+        "to": "0x2187328e4"
+      },
+      {
+        "from": "0x218733ca0",
+        "to": "0x218733cb4"
+      },
+      {
+        "from": "0x218733eb8",
+        "to": "0x218733eb8"
+      },
+      {
+        "from": "0x218733ecc",
+        "to": "0x218733edc"
+      },
+      {
+        "from": "0x218732758",
+        "to": "0x21873277c"
+      },
+      {
+        "from": "0x218733bdc",
+        "to": "0x218733be0"
+      },
+      {
+        "from": "0x218733be4",
+        "to": "0x218733bf0"
+      },
+      {
+        "from": "0x218733d24",
+        "to": "0x218733d60"
+      },
+      {
+        "from": "0x218733d64",
+        "to": "0x218733d64"
+      },
+      {
+        "from": "0x2187326d8",
+        "to": "0x2187326ec"
+      },
+      {
+        "from": "0x218732704",
+        "to": "0x218732720"
+      },
+      {
+        "from": "0x218732510",
+        "to": "0x218732510"
+      },
+      {
+        "from": "0x218732680",
+        "to": "0x21873269c"
+      },
+      {
+        "from": "0x218732934",
+        "to": "0x218732940"
+      },
+      {
+        "from": "0x218732944",
+        "to": "0x218732948"
+      },
+      {
+        "from": "0x218732488",
+        "to": "0x21873248c"
+      },
+      {
+        "from": "0x218733918",
+        "to": "0x21873391c"
+      },
+      {
+        "from": "0x218733c4c",
+        "to": "0x218733c5c"
+      },
+      {
+        "from": "0x218733c60",
+        "to": "0x218733c80"
+      },
+      {
+        "from": "0x218733c20",
+        "to": "0x218733c48"
+      },
+      {
+        "from": "0x218733c00",
+        "to": "0x218733c1c"
+      },
+      {
+        "from": "0x218732444",
+        "to": "0x218732444"
+      },
+      {
+        "from": "0x218732378",
+        "to": "0x218732378"
+      },
+      {
+        "from": "0x21873233c",
+        "to": "0x218732344"
+      },
+      {
+        "from": "0x2187322fc",
+        "to": "0x21873231c"
+      },
+      {
+        "from": "0x218733c84",
+        "to": "0x218733c9c"
+      },
+      {
+        "from": "0x2187322a0",
+        "to": "0x2187322d4"
+      },
+      {
+        "from": "0x218732348",
+        "to": "0x218732360"
+      },
+      {
+        "from": "0x218732260",
+        "to": "0x218732268"
+      },
+      {
+        "from": "0x218732218",
+        "to": "0x218732218"
+      },
+      {
+        "from": "0x218733ebc",
+        "to": "0x218733ec8"
+      },
+      {
+        "from": "0x21873216c",
+        "to": "0x21873216c"
+      },
+      {
+        "from": "0x218733e3c",
+        "to": "0x218733e48"
+      },
+      {
+        "from": "0x218733bd0",
+        "to": "0x218733bd8"
+      },
+      {
+        "from": "0x218732884",
+        "to": "0x218732894"
+      }
+    ]
+  },
+  "callees": [
+    "__ZNSt3__125__throw_bad_function_callB9nqn220106Ev",
+    "__ZN3AGX19DataBufferAllocatorILm45EE13getGPUAddressEj",
+    "__ZN3AGX19DataBufferAllocatorILm45EE32initializeOnDemandDataBufferSlowEj",
+    "__ZN3AGX13SpillInfoGen4INS_6HAL3008EncodersENS1_7ClassesENS1_10ObjClassesEE11SpillConfig9mergeFromERKS6_",
+    "__ZNSt3__16vectorIN3AGX14ComputeContextINS1_6HAL3008EncodersENS3_7ClassesENS3_10ObjClassesENS3_19CommandEncodingNextENS3_32EncoderComputeServiceClassesNextEE24VirtualSubstreamDispatchENS_9allocatorISA_EEE24__emplace_back_slow_pathIJRKSA_EEEPSA_DpOT_",
+    "__ZN3AGX14ComputeContextINS_6HAL3008EncodersENS1_7ClassesENS1_10ObjClassesENS1_19CommandEncodingNextENS1_32EncoderComputeServiceClassesNextEE13encodeBarrierE19eAGXDataBufferPools21eAGXBarrierVisibilitybb",
+    "__ZN3AGX14ComputeContextINS_6HAL3008EncodersENS1_7ClassesENS1_10ObjClassesENS1_19CommandEncodingNextENS1_32EncoderComputeServiceClassesNextEE24duplicateShaderAddressesEv",
+    "__ZN3AGX14ComputeContextINS_6HAL3008EncodersENS1_7ClassesENS1_10ObjClassesENS1_19CommandEncodingNextENS1_32EncoderComputeServiceClassesNextEE17prepareForEnqueueEb",
+    "__ZN3AGX14ComputeContextINS_6HAL3008EncodersENS1_7ClassesENS1_10ObjClassesENS1_19CommandEncodingNextENS1_32EncoderComputeServiceClassesNextEE29reserveEnqueueDatabufferSpaceE19eAGXDataBufferPoolsb",
+    "__ZN3AGX14ComputeContextINS_6HAL3008EncodersENS1_7ClassesENS1_10ObjClassesENS1_19CommandEncodingNextENS1_32EncoderComputeServiceClassesNextEE18restartComputePassE19eAGXDataBufferPoolsb",
+    "__ZN3AGX14ComputeContextINS_6HAL3008EncodersENS1_7ClassesENS1_10ObjClassesENS1_19CommandEncodingNextENS1_32EncoderComputeServiceClassesNextEE26appendProgramAddressTablesEv",
+    "__ZN3AGX25ESLInstructionEncoderGen3INS_6HAL3008EncodersEE6SpecLM20encodeImageBlockDataEjjjj",
+    "__ZN3AGX25ESLInstructionEncoderGen3INS_6HAL3008EncodersEE16AGX3EncodedInstrI27AGXIotoInstruction_SPECLM_0EC2ERKNS3_9AGX3InstrIS5_EE",
+    "__ZN3AGX14CDMEncoderGen7INS_6HAL30010ESLEncoderENS1_15DeviceConstantsEE10FenceTokenC2ERKNS_18FlagsConfigurationI22eAGXFenceTokenCFIFlagsEE",
+    "__ZN3AGX15ComputePipelineINS_6HAL30010ObjClassesENS1_7ClassesENS1_8EncodersEE13bindResourcesEP15MTLResourceListP17IOGPUResourceList",
+    "__ZN3AGX21ComputeUSCStateLoaderINS_6HAL3008EncodersENS1_7ClassesEE24directTGSizeOptimizationEPKNS1_21ComputeProgramVariantERNS_26ComputeDriverArgumentTableIS3_EERjb",
+    "__ZNK3AGX23ESLStateLoadEncoderGen2INS_6HAL3007ClassesENS1_8EncodersEE16emitUscStateLoadI21LdShdrTransformObjectIS3_S2_EEEvPyPS8_jyjjjjjjjPKjPKySD_T_",
+    "__ZN3AGX25PassiveResourceGroupUsageINS_6HAL3008EncodersENS1_7ClassesENS1_10ObjClassesEE19bindPassiveResourceERK20_PassiveResourceInfo",
+    "__ZN3AGX18ResourceGroupUsageINS_6HAL3008EncodersENS1_7ClassesENS1_10ObjClassesEE18bindActiveResourceEPK19_IOGPUMetalResourcebbbjy18_AGXWriteRangeSize",
+    "__ZN3AGX13SpillInfoGen4INS_6HAL3008EncodersENS1_7ClassesENS1_10ObjClassesEE26checkSpillParamsForComputeEjjjjjjjjjy",
+    "__ZN3AGX13SpillInfoGen4INS_6HAL3008EncodersENS1_7ClassesENS1_10ObjClassesEE22allocateUSCSpillBufferEP13AGXUMADescRecP15MTLResourceListR17IOGPUResourceInfob",
+    "__ZZN3AGX8Compiler14compileProgramINS_14MeshProgramKeyE20AGCDeserializedReplyEEvRKT_P29MTLCompileFunctionRequestDataPU27objcproto16MTL4CompilerTask11objc_objectU13block_pointerFvRKT0_PU27objcproto16OS_dispatch_data8NSObjectSG_SG_SG_SG_16MTLCompilerErrorP8NSStringyEENKUlvE0_clB83[AGX] Failed assertion \"!requestData.frameworkData && !requestData.pipelineOptions\"Ev"
+  ]
+}
