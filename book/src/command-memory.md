@@ -17,7 +17,7 @@ The build 26A434 implementation separates command storage from shader-private me
 | Private-memory preparation | Command preparation passes the descriptor to a pool that can reuse existing blocks or allocate additional internal resources | Descriptor requirements do not establish a new allocation for each dispatch |
 | Growth control | The G17X factory selects an implicit growth engine that reports support for initial hardware growth | This capability does not specify hardware growth timing or prove that a dispatch grows the pool |
 | Pool generations | A replacement freelist can retain references to backing resources from the previous generation | Replacing a freelist does not imply replacing or freeing its backing |
-| Idle shrink | Reduces the retained block set and can request purge state 4 on the backing memory object | While that object is resident, the driver records the purge request and returns success without invoking the underlying descriptor operation |
+| Idle shrink | Reduces the retained block set and can request purge state 4 on the backing memory object; see [pool lifecycle](#private-memory-pool-lifecycle) | While that object is resident, the driver records the purge request and returns success without invoking the underlying descriptor operation |
 | Scheduler retirement | The compute queue tests the descriptor event, invokes completion, releases its reference, clears the ring entry and advances the head | Device overrides and software stamp forcing exist; retirement alone does not prove successful GPU execution |
 | Completion | Pool completion releases reservation bookkeeping and a freelist reference; block destruction separately releases its internal resource | Completion does not imply immediate backing destruction |
 
@@ -62,6 +62,40 @@ The firmware reset path uses its separately supplied mapping to modify the same 
 Pool-ID retirement also compares a host-updated shared submission counter with a firmware-updated processed counter. Unequal counters, a nonzero per-ID guard or a pending reset can defer the retirement attempt; a later scan retries pending resets.
 
 After the checked ID-command poll succeeds, firmware requests cache cleaning and invalidation over the 136-byte shared state and clears completion-pending bookkeeping. An accepted request can remain deferred, and these operations do not establish physical-page release.
+
+## Private-memory pool lifecycle
+
+Shader private memory — stack storage such as dynamically indexed thread-local arrays, and register spills — is backed by a per-process pool that the driver grows and shrinks. The pool exists in addition to the application's own allocations and is charged to the process's memory footprint.
+
+| Stage | Implementation behavior | Basis |
+| --- | --- | --- |
+| Creation | Each process that runs compute work owns a pool; a kernel without private storage still receives 112 MiB | Observed |
+| Sizing | For each command, the driver computes a minimum and a desired pool size from the pipeline's private-memory requirement, caps the desired size at the pool maximum and rounds both to the block size | Static; block size observed as 8 MiB |
+| Growth | When the desired size exceeds the current pool, the host grows the pool synchronously while preparing the command. After three consecutive allocation failures, the minimum size is used instead | Static |
+| Publication | New blocks are published to the GPU through the private-memory descriptor's incremental update before the command is submitted | Static |
+| Idle shrink | A 1 s driver timer keeps a per-pool usage estimate, `estimate = max(peak, (peak + 4 × estimate) / 5)`, and shrinks the pool to it in whole blocks. Without submissions the pool shrinks by 20% per second | Static and observed |
+| Release | After 10 s without use the pool releases all blocks and purges its backing | Static and observed |
+| Accounting | Pool memory appears in the process footprint while in use; retained idle blocks are reported as reclaimable | Observed |
+
+The following measurements use a compute kernel with a dynamically indexed 16 KiB thread-local array, dispatched as 1,048,576 threads (M5 Max, build 26A434). The desired size was 2,110,619,648 bytes and the pool grew to 2 GiB. A second process kept the GPU busy throughout, so GPU power-state transitions do not contribute to the wall-time difference.
+
+| Idle time before the next command buffer | Extra host time before GPU execution |
+| --- | ---: |
+| 1.0 s or less | about 1 ms |
+| 1.25 s | 15–28 ms |
+| 1.5–3 s | 26–34 ms |
+| 6 s | about 45 ms |
+| 12 s (pool released) | about 55 ms |
+
+Regrowing a fully released pool cost about 27 ms per GiB. Without a second process keeping the GPU active, a kernel without private storage also added 6–9 ms after gaps of 1.5 s or more, so this fixed cost dominates for small pools. Steady-state benchmarks include neither cost.
+
+Kernel and runtime guidance:
+
+- Keep per-thread private storage small. Pool size scales with private memory per thread times resident threads; a 16 KiB array per thread produced a 2 GiB pool.
+- For latency-sensitive work that uses large private memory, measure the first command buffer after idle periods separately from steady-state timing.
+- Gaps longer than about 1 s between submissions from the same process allow the pool to shrink; the next command pays for regrowth on the host.
+
+Measure the pool with the process footprint (`footprint -p <pid>`: *IOAccelerator* and *Reclaimable*) and the GPU's `In use system memory` statistic. The IOReport channel *GPU Stats / UMA Pool Memory Usage / Total Number of UMA Pages* counts 4 KiB units; in build 26A434 it adds each growth twice and subtracts each release once, so it drifts upward and does not equal the pool size.
 
 ## Physical backing
 
