@@ -1,8 +1,8 @@
-use std::num::NonZeroUsize;
+use std::{num::NonZeroUsize, time::Instant};
 
 use metal::prelude::*;
 
-use super::Error;
+use super::{Error, timing::Timing};
 
 pub struct Gpu {
     device: Retained<ProtocolObject<dyn MTLDevice>>,
@@ -46,6 +46,27 @@ impl Gpu {
         self.device.new_buffer(length, MTLResourceOptions::STORAGE_MODE_PRIVATE).ok_or(Error::Allocation("buffer"))
     }
 
+    pub fn timed(
+        &self,
+        encode: impl Fn(&ProtocolObject<dyn MTLComputeCommandEncoder>),
+    ) -> Result<Timing, Error> {
+        let command_buffer = self.queue.command_buffer().ok_or(Error::Allocation("command buffer"))?;
+        let encoder = command_buffer.compute_command_encoder().ok_or(Error::Allocation("compute encoder"))?;
+        encode(&encoder);
+        encoder.end_encoding();
+        let start = Instant::now();
+        command_buffer.commit();
+        command_buffer.wait_until_completed();
+        let wall_seconds = start.elapsed().as_secs_f64();
+        if let Some(error) = command_buffer.error() {
+            return Err(Error::CommandBuffer(error));
+        }
+        Ok(Timing {
+            wall_seconds,
+            gpu_seconds: command_buffer.gpu_end_time() - command_buffer.gpu_start_time(),
+        })
+    }
+
     pub fn fastest_seconds(
         &self,
         repeats: NonZeroUsize,
@@ -53,16 +74,7 @@ impl Gpu {
     ) -> Result<f64, Error> {
         let mut fastest = f64::INFINITY;
         for _ in 0..repeats.get() {
-            let command_buffer = self.queue.command_buffer().ok_or(Error::Allocation("command buffer"))?;
-            let encoder = command_buffer.compute_command_encoder().ok_or(Error::Allocation("compute encoder"))?;
-            encode(&encoder);
-            encoder.end_encoding();
-            command_buffer.commit();
-            command_buffer.wait_until_completed();
-            if let Some(error) = command_buffer.error() {
-                return Err(Error::CommandBuffer(error));
-            }
-            fastest = fastest.min(command_buffer.gpu_end_time() - command_buffer.gpu_start_time());
+            fastest = fastest.min(self.timed(&encode)?.gpu_seconds);
         }
         Ok(fastest)
     }

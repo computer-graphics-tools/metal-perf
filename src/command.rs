@@ -8,7 +8,7 @@ use crate::{
     capture::CaptureArgs,
     dwarf::{InlinesArgs, LinesArgs},
     gpudebug::ProfileArgs,
-    probe::{AccessPatternArgs, BandwidthArgs},
+    probe::{AccessPatternArgs, BandwidthArgs, IdleGapArgs},
     profile::{CountersArgs, ShadersArgs},
     xctrace::XctraceArgs,
 };
@@ -23,6 +23,12 @@ pub enum Command {
     /// row-major weight matrix. `tiled`: each block of 32 rows x step bytes is contiguous and the
     /// lanes read consecutive 16-byte chunks. Both read every byte once.
     AccessPattern(AccessPatternArgs),
+    /// Time the first command buffer after idle periods against back-to-back ones
+    ///
+    /// The kernel uses a dynamically indexed thread-local array, so the driver backs it with a
+    /// private-memory pool that it shrinks while the GPU is idle and regrows on the host before the
+    /// next command runs. Reports the extra GPU time and the extra host time per idle period.
+    IdleGap(IdleGapArgs),
     /// Launch a command with Metal capture enabled and record a .gputrace until it exits
     ///
     /// Sets MTL_CAPTURE_ENABLED=1 and MTLCAPTURE_WAIT_FOR_SIGNAL=1, waits until the process is
@@ -55,6 +61,7 @@ impl Command {
         match self {
             Self::Bandwidth(arguments) => arguments.run()?,
             Self::AccessPattern(arguments) => arguments.run()?,
+            Self::IdleGap(arguments) => arguments.run()?,
             Self::Capture(arguments) => arguments.run()?,
             Self::Profile(arguments) => arguments.run()?,
             Self::Shaders(arguments) => arguments.run()?,

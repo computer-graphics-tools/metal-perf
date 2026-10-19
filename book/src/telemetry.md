@@ -54,7 +54,7 @@ The time since the previous command buffer changes the next command buffer's cos
 | 200 ms to 1 s | Higher (35.4 → 40.3 ms for a 35 ms kernel; 0.9 → 1.6 ms for a 1 ms kernel); absent while another process keeps the GPU busy | Unchanged |
 | 1.5 s or more | Higher, as above | 6–9 ms more even without private memory; more for kernels with large [private-memory pools](command-memory.md#private-memory-pool-lifecycle) |
 
-Benchmarks that run command buffers back to back measure only the first row. Measure intermittent workloads with their real gaps, and report the first command buffer after idle separately.
+Benchmarks that run command buffers back to back measure only the first row. Measure intermittent workloads with their real gaps, and report the first command buffer after idle separately. `metal-perf idle-gap --private-bytes N` reproduces the table for a kernel with `N` bytes of private storage per thread.
 
 ## Host time
 

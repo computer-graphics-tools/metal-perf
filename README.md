@@ -70,8 +70,11 @@ flowchart LR
    recover, drops the warm-up round, and reports per-round medians, tails and paired ratios against
    the first variant. Re-analyze the logs later with `metal-perf ab report`.
 
-Two more instruments:
+Three more instruments:
 
+- `metal-perf idle-gap` times the first command buffer after idle periods against back-to-back ones,
+  for a kernel with large private (thread-local) storage. Back-to-back benchmarks miss the extra GPU
+  time after 200 ms of idle and the host time to regrow the private-memory pool after about 1 s.
 - `metal-perf access-pattern` compares two orders of reading the same weight-like matrix: row per
   lane, as a fragment cursor reads a row-major matrix, against contiguous 32-row blocks. It shows
   what a weight repack is worth on this GPU before anyone writes it.
