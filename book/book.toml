@@ -1,0 +1,9 @@
+[book]
+title = "Apple GPU compute reference"
+authors = ["Eugene Bokhan"]
+language = "en"
+src = "src"
+
+[build]
+build-dir = "build"
+create-missing = false
