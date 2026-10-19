@@ -24,9 +24,33 @@ Deferred work in the selected GFX1 implementation uses a separate 64-bit pending
 | ID retirement, command 46 | Checks the supplied identity against a per-ID state record, removes selected dependency state and may resume blocked work | State retirement does not establish physical backing release |
 | Event publication | Publishes 72-byte entries; the selected firmware producer executes `DSB SY` before and after write-cursor publication | Orders event data and notification publication |
 | Stamp notification, event 1 | Carries four 32-bit stamp-index bitmaps; the host wakes the selected waiters | Notification does not write the shared stamp values |
-| Private-memory events | Allocation request, grow-request completion and threshold notification have distinct host handlers | The registered allocation-request action is empty, and the selected implicit engine's grow-completion callback returns zero without changing the pool |
+| Private-memory events | Threshold notification is produced; asynchronous allocation and grow completion are not (see [event types](#event-types)) | Private-memory growth is signalled through the threshold path, not through an asynchronous grow request |
 
 Control-ring progress, stamp-value publication and resource retirement are separate boundaries. The selected control-consumption tail has no explicit barrier; the event producer's barriers must not be generalized to every firmware ring. A control wait cannot replace a shader-completion dependency or the resource-lifetime contract.
+
+## Event types
+
+Each 72-byte event entry starts with a 32-bit type. The host drain validates the type and dispatches it to a handler. The table lists the driver's type identifiers (`kAGFIFirmwareEventType…`) and the types that the packaged build 26A434 G17X firmware images produce.
+
+| Type | Identifier | Host handling | Produced by |
+| ---: | --- | --- | --- |
+| 0 | `FirmwareAlive` | Device-specific alive handler | None |
+| 1 | `StampsUpdated` | Wakes waiters for the stamp indices in the bitmaps | GFX, GFX1 |
+| 2, 3, 5, 11 | — | Skipped; no handler | None |
+| 4 | `GPURestart` | [Recovery](faults-recovery.md#recovery-protocol) | GFX |
+| 6 | `AllocatePMMemory` | Queued to an 8-entry host ring; a deferred worker serves the parameter-buffer manager. While the ring is full, the drain retries every 100 ms | GFX |
+| 7 | `ChannelError` | [Channel-error report](faults-recovery.md#recovery-protocol) | GFX, GFX1 |
+| 8 | `MtrResult` | Forwarded to a metrology client | None |
+| 9 | `UMAAsyncAlloc` | Queued to a 64-entry host ring whose deferred action is empty | None |
+| 10 | `SharedEventSignalComplete` | Signals the shared event identifier | GFX |
+| 12 | `ProcessExitComplete` | Removes the exited process object | GFX, GFX1 |
+| 13 | `UMAAsyncGrowRequestComplete` | Private-memory free-list callback | None |
+| 14 | `RTCompletionEvent` | Performance-controller notification | None |
+| 15 | `UMAThresholdInterrupt` | Publishes the private-memory free list's block count, then sends threshold response command 33 | GFX |
+
+"None" means that no packaged GFX or GFX1 image (variants `a000`, `a010`, `a020`) writes the type to its event ring. Each GFX image has exactly three barrier-bracketed write-cursor publications and each GFX1 image has two; every packet type that reaches them is a constant. This excludes the type for the shipped firmware. It does not cover firmware from other OS builds or ring writes that do not originate in firmware code.
+
+The threshold handler compares the free list's block count with the count already published in its private-memory descriptor. When the free list holds more blocks, it publishes the larger count through the descriptor's incremental update, then sends command 33 with the pool identifier. The event does not allocate memory; blocks are appended to the free list on the host before they are published.
 
 ## Firmware logs
 
@@ -69,4 +93,4 @@ The completion handler reads a command-record reference at entry offset `0x30`, 
 
 The normal compute path encodes a 32-byte completion record containing destination addresses, a value and a stamp index. The CPU current-stamp table and the firmware destination use different mappings of the same backing resource at byte offset `4 * stampIndex`. Firmware consumes the queued record, writes the value and then publishes the stamp-index notification. This describes the static completion path; fault, forced-completion and recovery paths require separate interpretation.
 
-The producer and triggering conditions of grow-completion event 13 are not specified here. The presence of its host handler does not establish a firmware producer or use by the implicit growth engine. Firmware-ring event types, power-work callback indices and register-region identifiers are separate namespaces.
+Firmware-ring event types, control-command numbers, power-work callback indices and register-region identifiers are separate namespaces.
