@@ -75,6 +75,10 @@ Three more instruments:
 - `metal-perf idle-gap` times the first command buffer after idle periods against back-to-back ones,
   for a kernel with large private (thread-local) storage. Back-to-back benchmarks miss the extra GPU
   time after 200 ms of idle and the host time to regrow the private-memory pool after about 1 s.
+  `idle-gap --pool-probe` checks GPU output and holds the process for a pool snapshot.
+  Add `--pool-pre-hold-ms 1200` to snapshot allocations after pipeline setup but before dispatch.
+  `scripts/private_pool_sweep.py` measures the full shape grid and `scripts/check_private_pool.py`
+  compares those measurements with predeclared predictions.
 - `metal-perf access-pattern` compares two orders of reading the same weight-like matrix: row per
   lane, as a fragment cursor reads a row-major matrix, against contiguous 32-row blocks. It shows
   what a weight repack is worth on this GPU before anyone writes it.

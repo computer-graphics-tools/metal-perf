@@ -12,4 +12,10 @@ pub enum Error {
     CommandBuffer(metal::MetalError),
     #[error("invalid probe shape: {0}")]
     Shape(String),
+    #[error("probe output disagrees with the CPU reference: {0}")]
+    Reference(String),
+    #[error("probe I/O failed: {0}")]
+    Io(#[from] std::io::Error),
+    #[error("system clock failed: {0}")]
+    Clock(#[from] std::time::SystemTimeError),
 }

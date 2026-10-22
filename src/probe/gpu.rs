@@ -46,6 +46,13 @@ impl Gpu {
         self.device.new_buffer(length, MTLResourceOptions::STORAGE_MODE_PRIVATE).ok_or(Error::Allocation("buffer"))
     }
 
+    pub fn shared_buffer(
+        &self,
+        length: usize,
+    ) -> Result<Retained<ProtocolObject<dyn MTLBuffer>>, Error> {
+        self.device.new_buffer(length, MTLResourceOptions::STORAGE_MODE_SHARED).ok_or(Error::Allocation("buffer"))
+    }
+
     pub fn timed(
         &self,
         encode: impl Fn(&ProtocolObject<dyn MTLComputeCommandEncoder>),
@@ -65,6 +72,22 @@ impl Gpu {
             wall_seconds,
             gpu_seconds: command_buffer.gpu_end_time() - command_buffer.gpu_start_time(),
         })
+    }
+
+    pub fn run_untimed(
+        &self,
+        encode: impl Fn(&ProtocolObject<dyn MTLComputeCommandEncoder>),
+    ) -> Result<(), Error> {
+        let command_buffer = self.queue.command_buffer().ok_or(Error::Allocation("command buffer"))?;
+        let encoder = command_buffer.compute_command_encoder().ok_or(Error::Allocation("compute encoder"))?;
+        encode(&encoder);
+        encoder.end_encoding();
+        command_buffer.commit();
+        command_buffer.wait_until_completed();
+        if let Some(error) = command_buffer.error() {
+            return Err(Error::CommandBuffer(error));
+        }
+        Ok(())
     }
 
     pub fn fastest_seconds(
