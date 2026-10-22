@@ -99,8 +99,8 @@ def zero_input_end_pass(record):
         raise ValueError("zero-input page-count form requires nonnegative signed inputs")
     first = n * (base + 65 + 10 * pop + multiplier * max(170 - reserve, 0))
     second = n * (base + 65 + multiplier * max(490 - reserve, 0))
-    if max(first, second) >= 1 << 31:
-        raise ValueError("zero-input candidate exceeds signed 32-bit range")
+    if max(first, second) > (1 << 31) - 8:
+        raise ValueError("zero-input candidate rounds outside signed 32-bit range")
     return {
         "zero_input_candidate_pages_0x14": (first + 7) & ~7,
         "zero_input_candidate_pages_0x18": (second + 7) & ~7,

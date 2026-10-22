@@ -263,7 +263,7 @@ candidate14 = round_up_8(N * (base + 65 + 10*P + M*max(170-R, 0)))
 candidate18 = round_up_8(N * (base + 65 + M*max(490-R, 0)))
 ```
 
-These are **static G17X user-mode code translations**, not M5 measurements or physical pool sizes. The function compares them with existing spill-object fields; descriptor allocation may apply further terms. The M5 run must capture the selected mask, `N`, `M`, `base`, `R`, and the before/after fields to test this path and decide whether an end-pass descriptor affects the pool.
+These are **static G17X user-mode code translations**, not M5 measurements or physical pool sizes. The simple integer form is valid only when each candidate still fits a signed 32-bit page count after rounding; the machine uses 32-bit arithmetic and signed SIMD maxima. The function compares the candidates with existing spill-object fields; descriptor allocation may apply further terms. The M5 run must capture the selected mask, `N`, `M`, `base`, `R`, and the before/after fields to test this path and decide whether an end-pass descriptor affects the pool.
 
 ### M5 reference validation runbook
 
