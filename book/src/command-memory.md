@@ -291,7 +291,7 @@ else:
     active = count*per
     baseline = min(active,96)*P0 + min(active,10)*P1
 q = baseline + per*C4 + min(per,8)*C64
-g = 32 if f6 == 0 else min(ceil(f6/32),10)
+g = 32 if f6 == 0 else ceil(f6/32)
 z = C64 + P1*min(g,10)
 v = max(P0*g + P1*min(g,10) + C64 + C4 - R,0) + C64 + C4
 common = base + C64 + P1 + 64
@@ -299,7 +299,7 @@ candidate14 = round_up_8(N*(common + P*z + M*v))
 candidate18 = round_up_8(N*(common + M*max(q-R,0)))
 ```
 
-When `per=0`, the `count` division is ARM `UDIV` and yields zero. `scripts/g17x_descriptor.py --compute-candidates` evaluates both candidate page fields from captured `f1`–`f6`, mask, option fields, and spill-object words. It rejects signed overflow rather than pretending Python's unbounded integers reproduce the machine's wraparound. Static analysis does not identify which branch the M5 Max selects.
+When `per=0`, the `count` division is ARM `UDIV` and yields zero. The quotient in `w1` at `0x2189866C0` remains uncapped for the `P0*g` term, while `w6` at `0x2189866CC` caps only the `P1` term at 10; this distinction matters when `f6` exceeds 320. `scripts/g17x_descriptor.py --compute-candidates` evaluates both candidate page fields from captured `f1`–`f6`, mask, option fields, and spill-object words. It rejects signed overflow rather than pretending Python's unbounded integers reproduce the machine's wraparound. Static analysis does not identify which branch the M5 Max selects.
 
 ### M5 reference validation runbook
 

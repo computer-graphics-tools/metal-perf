@@ -161,7 +161,7 @@ def compute_candidates(record):
         baseline = p0_factor * p0 + min(active, 10) * p1
         cap = min(per, 8)
     q = baseline + per * c4 + cap * c64
-    effective_group = 32 if f6 == 0 else min((f6 + 31) // 32, 10)
+    effective_group = 32 if f6 == 0 else (f6 + 31) // 32
     z = c64 + p1 * min(effective_group, 10)
     vbase = p0 * effective_group + p1 * min(effective_group, 10) + c64 + c4
     v = max(vbase - reserve, 0) + c64 + c4
