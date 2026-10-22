@@ -31,6 +31,7 @@ output: read it before retrying.
 | What is the memory ceiling of this GPU? | `metal-perf bandwidth` |
 | Is a different weight layout worth writing? | `metal-perf access-pattern --rows R --row-bytes B` |
 | What does the first command after idle cost? | `metal-perf idle-gap --private-bytes N` |
+| How large is the private pool for a dispatch shape? | `metal-perf idle-gap --pool-probe` or `scripts/private_pool_sweep.py` |
 | Record a GPU trace of a run | `metal-perf capture --out run.gputrace -- <command>` |
 | Profile the trace and fetch everything | `metal-perf profile run.gputrace --out prof` |
 | Which shaders take the time, and their registers and spills? | `metal-perf shaders prof` |
