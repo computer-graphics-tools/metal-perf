@@ -376,7 +376,7 @@ python3 scripts/private_pool_sweep.py \
 
 The A/A control must stay within 2% geometric mean across the retained rounds; keep its logs even if it fails. The JSONL records all 84 shapes, invalid samples and measurement lag. Inspect dispatch durations and repeat ranges. If a long-running shape shrinks before the post-completion snapshot, first compare the full and `--pool-fast` kernels at 65,536 threads for that private-byte size and each group size, then repeat only the affected long-grid shapes with `--pool-fast`. Keep both raw logs and mark the selected rows and their source. Do not silently discard an unstable or invalid run.
 
-Fit the G17X formula using only a declared training subset. Store predictions **before** running at least six held-out shapes in a JSON list; each entry has `private_bytes`, `threads`, `threadgroup_size`, and `predicted_mib`. A ready-to-run held-out grid is:
+Fit the G17X formula using only a declared training subset. Store predictions **before** running at least six held-out shapes in a JSON list; each entry has `private_bytes`, `threads`, `threadgroup_size`, and an integer `predicted_bytes` from the derived driver formula. The checker also accepts the existing M4 `predicted_mib` files, but requires exactly one prediction field per shape and reports byte-level errors. A ready-to-run held-out grid is:
 
 ```sh
 python3 scripts/private_pool_sweep.py \

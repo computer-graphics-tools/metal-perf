@@ -26,7 +26,7 @@ def shape(row):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data", type=Path, action="append", required=True, help="JSONL file; repeat as needed")
-    parser.add_argument("--predictions", type=Path, required=True, help="JSON list with shape fields and predicted_mib")
+    parser.add_argument("--predictions", type=Path, required=True, help="JSON list with shape fields and predicted_bytes or predicted_mib")
     parser.add_argument("--block-mib", type=float, default=8)
     parser.add_argument("--repeat-limit-mib", type=float, default=8)
     parser.add_argument("--min-repeats", type=int, default=3)
@@ -46,10 +46,20 @@ def main():
         key = shape(prediction)
         if key in expected:
             parser.error(f"duplicate prediction for {key}")
-        value = prediction["predicted_mib"]
-        if not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
-            parser.error(f"invalid predicted_mib for {key}: {value}")
-        expected[key] = value
+        byte_prediction = "predicted_bytes" in prediction
+        mib_prediction = "predicted_mib" in prediction
+        if byte_prediction == mib_prediction:
+            parser.error(f"prediction for {key} needs exactly one of predicted_bytes and predicted_mib")
+        if byte_prediction:
+            value = prediction["predicted_bytes"]
+            if type(value) is not int or value < 0:
+                parser.error(f"invalid predicted_bytes for {key}: {value}")
+            expected[key] = value
+        else:
+            value = prediction["predicted_mib"]
+            if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
+                parser.error(f"invalid predicted_mib for {key}: {value}")
+            expected[key] = value * MIB
     samples = collections.defaultdict(list)
     for path in args.data:
         for line_number, line in enumerate(path.read_text().splitlines(), 1):
@@ -85,7 +95,7 @@ def main():
         if len(condition_signatures) != 1:
             failures.append(f"run conditions contain {len(condition_signatures)} distinct device/OS/Xcode/compiler/power/thermal-state signatures")
 
-    def pool_mib(row):
+    def pool_bytes(row):
         source = row["_source"]
         if row.get("pool_row", args.pool_row) != args.pool_row or row.get("pool_component", args.pool_component) != args.pool_component:
             failures.append(f"{source}: pool row/component differs from checker selection")
@@ -98,7 +108,7 @@ def main():
         size = sum(values) if args.pool_component == "total" else values[COMPONENTS[args.pool_component]]
         if row.get("pool_bytes", size) != size:
             failures.append(f"{source}: selected pool bytes disagree with raw graphics row")
-        return size / MIB
+        return size
 
     for key in sorted(expected.keys() | samples.keys()):
         rows = samples.get(key, [])
@@ -106,7 +116,7 @@ def main():
             failures.append(f"{key}: data has no prediction")
             continue
         invalid = [row for row in rows if row.get("status") != "ok"]
-        values = [value for row in rows if row.get("status") == "ok" if (value := pool_mib(row)) is not None]
+        values = [value for row in rows if row.get("status") == "ok" if (value := pool_bytes(row)) is not None]
         legacy = [
             row for row in rows if row.get("status") == "ok" and
             not all(field in row for field in WINDOW_FIELDS)
@@ -119,12 +129,12 @@ def main():
                 else row.get("accelerator_completed_after_ready_seconds", row.get("accelerator_started_after_ready_seconds", float("inf")))
             ) >= 1
         ]
-        range_mib = max(values) - min(values) if values else float("nan")
-        max_error_mib = max((abs(value - expected[key]) for value in values), default=float("nan"))
-        median_mib = statistics.median(values) if values else float("nan")
+        range_bytes = max(values) - min(values) if values else float("nan")
+        max_error_bytes = max((abs(value - expected[key]) for value in values), default=float("nan"))
+        median_bytes = statistics.median(values) if values else float("nan")
         print(
-            f"{key} predicted={expected[key]:.1f} MiB median={median_mib:.1f} MiB "
-            f"max_error={max_error_mib:.1f} MiB range={range_mib:.1f} MiB "
+            f"{key} predicted={expected[key]} B median={median_bytes} B "
+            f"max_error={max_error_bytes} B range={range_bytes} B "
             f"samples={len(rows)} invalid={len(invalid)} late={len(lagged)} legacy_window={len(legacy)}"
         )
         if len(rows) < args.min_repeats:
@@ -135,10 +145,10 @@ def main():
             failures.extend(f"{row['_source']}: sample window exceeds one second" for row in lagged)
         if args.require_completion_window and legacy:
             failures.extend(f"{row['_source']}: lacks a dispatch-start completion-window bound" for row in legacy)
-        if values and max_error_mib > args.block_mib:
-            failures.append(f"{key}: maximum prediction error {max_error_mib:.1f} MiB exceeds {args.block_mib}")
-        if values and range_mib > args.repeat_limit_mib:
-            failures.append(f"{key}: repeat range {range_mib:.1f} MiB exceeds {args.repeat_limit_mib}")
+        if values and max_error_bytes > args.block_mib * MIB:
+            failures.append(f"{key}: maximum prediction error {max_error_bytes} B exceeds {args.block_mib} MiB")
+        if values and range_bytes > args.repeat_limit_mib * MIB:
+            failures.append(f"{key}: repeat range {range_bytes} B exceeds {args.repeat_limit_mib} MiB")
 
     print(f"checked {len(expected)} predicted shapes and {sum(map(len, samples.values()))} raw rows")
     for failure in failures:
