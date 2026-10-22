@@ -57,3 +57,6 @@ jobs:
 
       - name: Test
         run: cargo test --locked
+
+      - name: G17X descriptor cross-check
+        run: python3 -m unittest discover -s scripts -p 'test_*.py'

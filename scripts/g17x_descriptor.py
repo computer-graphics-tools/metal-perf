@@ -108,16 +108,92 @@ def zero_input_end_pass(record):
     }
 
 
+def compute_candidates(record):
+    """Translate the Gen4 compute check for non-overflowing unsigned inputs.
+
+    The driver performs 32-bit arithmetic and signed maxima. Reject values
+    outside the positive domain of this source-like integer reduction.
+    """
+    config = record["config"]
+    n = word(config["device_count_0x1c44"])
+    option = word(config["compute_option_0x4327"])
+    device_word = word(config["compute_word_0x4328"])
+    if n == 0 or option > 255:
+        raise ValueError("device count must be nonzero and compute option must be a byte")
+    primary = int(config["primary_mask_0x1be0"], 0)
+    alternate = int(config["alternate_mask_0x1bf0"], 0)
+    if not 0 <= primary < 1 << 128 or not 0 <= alternate < 1 << 128:
+        raise ValueError("USC masks must be 128-bit unsigned values")
+    pop = (primary or alternate).bit_count()
+    args = [word(record["compute_args"][f"f{i}"]) for i in range(1, 7)]
+    f1, f2, f3, f4, f5, f6 = args
+    spill = {int(offset, 0): word(value) for offset, value in record["spill_words"].items()}
+    missing = set(END_PASS_OFFSETS) - spill.keys()
+    if missing:
+        raise ValueError(f"missing compute spill words at {sorted(hex(offset) for offset in missing)}")
+    multiplier, base, reserve = (spill[offset] for offset in (0x48, 0x50, 0x60))
+    if max(args + [multiplier, base, reserve]) >= 1 << 31:
+        raise ValueError("compute page-count form requires nonnegative signed inputs")
+
+    a = 32 * max(f1, f2)
+    s = 32 * f3
+    c = f5 + 64 if f5 else 0
+    p0 = (a + 0x537F) // 4096 + (s + 4095) // 4096
+    p1 = (a + 0x1437F) // 65536 + (s + 65535) // 65536
+    c4 = (c + 4095) // 4096 + (f4 + 4095) // 4096
+    c64 = (c + 65535) // 65536 + (f4 + 65535) // 65536
+    e = (f6 + 31) // 32 if f6 else 1
+    if option == 1:
+        per = min(96 // e + (e > 1), 96)
+        p0_factor = min(e, 32) + 95
+        baseline = p0_factor * p0 + 10 * p1
+        cap = min(per, 8)
+    else:
+        per = 96 // e
+        if not device_word & (1 << 31) and f4 and device_word <= 62:
+            per = min(per, (4096 * device_word + 65536) // ((f4 + 63) & ~63))
+        if not f6 and per <= 95:
+            count = (per + 95) // per if per else 0  # ARM UDIV by zero returns zero.
+        else:
+            count = e
+        active = count * per
+        p0_factor = min(active, 96)
+        baseline = p0_factor * p0 + min(active, 10) * p1
+        cap = min(per, 8)
+    q = baseline + per * c4 + cap * c64
+    effective_group = 32 if f6 == 0 else min((f6 + 31) // 32, 10)
+    z = c64 + p1 * min(effective_group, 10)
+    vbase = p0 * effective_group + p1 * min(effective_group, 10) + c64 + c4
+    v = max(vbase - reserve, 0) + c64 + c4
+    common = base + c64 + p1 + 64
+    first = n * (common + pop * z + multiplier * v)
+    second = n * (common + multiplier * max(q - reserve, 0))
+    if max(a, s, c, p0, p1, c4, c64, p0_factor, baseline, q, vbase, v,
+           common, first, second) > (1 << 31) - 8:
+        raise ValueError("compute candidate or intermediate exceeds signed 32-bit range")
+    return {
+        "compute_candidate_pages_0x14": (first + 7) & ~7,
+        "compute_candidate_pages_0x18": (second + 7) & ~7,
+        "compute_mask_popcount": pop,
+        "compute_schedule_per": per,
+        "compute_schedule_p0_factor": p0_factor,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("capture", type=Path, help="JSON file with config, resource_list_present, and spill_words")
     parser.add_argument("--zero-input-end-pass", action="store_true",
                         help="also evaluate the static endComputePass zero-argument candidate")
+    parser.add_argument("--compute-candidates", action="store_true",
+                        help="also evaluate the static compute-check candidates from captured arguments")
     args = parser.parse_args()
     record = json.loads(args.capture.read_text())
     result = evaluate(record)
     if args.zero_input_end_pass:
         result.update(zero_input_end_pass(record))
+    if args.compute_candidates:
+        result.update(compute_candidates(record))
     print(json.dumps(result, indent=2, sort_keys=True))
 
 

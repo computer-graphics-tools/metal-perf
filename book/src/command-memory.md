@@ -265,6 +265,42 @@ candidate18 = round_up_8(N * (base + 65 + M*max(490-R, 0)))
 
 These are **static G17X user-mode code translations**, not M5 measurements or physical pool sizes. The simple integer form is valid only when each candidate still fits a signed 32-bit page count after rounding; the machine uses 32-bit arithmetic and signed SIMD maxima. The function compares the candidates with existing spill-object fields; descriptor allocation may apply further terms. The M5 run must capture the selected mask, `N`, `M`, `base`, `R`, and the before/after fields to test this path and decide whether an end-pass descriptor affects the pool.
 
+The ordinary compute check also has a source-like reduction in the non-overflow domain. Let `f1`–`f6` be its first six unsigned input arguments, and let `P`, `N`, `M`, `base`, and `R` have the meanings above. The instructions at `0x218986590`–`0x2189866A4` yield these page-count terms:
+
+```text
+a = 32*max(f1,f2)
+s = 32*f3
+c = 0 if f5 == 0 else f5 + 64
+P0 = floor((a + 0x537f)/4096) + ceil(s/4096)
+P1 = floor((a + 0x1437f)/65536) + ceil(s/65536)
+C4 = ceil(c/4096) + ceil(f4/4096)
+C64 = ceil(c/65536) + ceil(f4/65536)
+```
+
+The schedule depends on config byte `0x4327` and config word `0x4328`. With `e = max(1, ceil(f6/32))`, the two branches reduce to:
+
+```text
+if config[0x4327] == 1:
+    per = min(floor(96/e) + (e > 1), 96)
+    baseline = (min(e,32) + 95)*P0 + 10*P1
+else:
+    per = floor(96/e)
+    if bit31(config[0x4328]) == 0 and f4 > 0 and config[0x4328] <= 62:
+        per = min(per, floor((4096*config[0x4328] + 65536)/round_up_64(f4)))
+    count = floor((per + 95)/per) if f6 == 0 and per <= 95 else e
+    active = count*per
+    baseline = min(active,96)*P0 + min(active,10)*P1
+q = baseline + per*C4 + min(per,8)*C64
+g = 32 if f6 == 0 else min(ceil(f6/32),10)
+z = C64 + P1*min(g,10)
+v = max(P0*g + P1*min(g,10) + C64 + C4 - R,0) + C64 + C4
+common = base + C64 + P1 + 64
+candidate14 = round_up_8(N*(common + P*z + M*v))
+candidate18 = round_up_8(N*(common + M*max(q-R,0)))
+```
+
+When `per=0`, the `count` division is ARM `UDIV` and yields zero. `scripts/g17x_descriptor.py --compute-candidates` evaluates both candidate page fields from captured `f1`–`f6`, mask, option fields, and spill-object words. It rejects signed overflow rather than pretending Python's unbounded integers reproduce the machine's wraparound. Static analysis does not identify which branch the M5 Max selects.
+
 ### M5 reference validation runbook
 
 The acceptance criteria in this subsection are requirements from issues #1, #9 and #15; commands are the proposed procedure for gathering their evidence.
@@ -363,13 +399,23 @@ xcrun lldb --batch \
   -o 'breakpoint set --func-regex checkSpillParamsForCompute' \
   -o run \
   -o 'expression -l c++ -- unsigned long $spill = (unsigned long)$x0' \
+  -o 'expression -l c++ -- unsigned long $config = *(unsigned long*)($spill + 0x38)' \
   -o 'register read w1 w2 w3 w4 w5 w6' \
+  -o 'memory read --format x --size 8 --count 4 $config+0x1be0' \
+  -o 'memory read --format x --size 4 --count 1 $config+0x1c44' \
+  -o 'memory read --format x --size 1 --count 1 $config+0x4327' \
+  -o 'memory read --format x --size 4 --count 1 $config+0x4328' \
   -o 'memory read --format x --size 4 --count 32 $spill' \
   -o 'thread step-out' \
   -o 'memory read --format x --size 4 --count 32 $spill' \
   -o continue \
   -o 'expression -l c++ -- unsigned long $spill2 = (unsigned long)$x0' \
+  -o 'expression -l c++ -- unsigned long $config2 = *(unsigned long*)($spill2 + 0x38)' \
   -o 'register read w1 w2 w3 w4 w5 w6' \
+  -o 'memory read --format x --size 8 --count 4 $config2+0x1be0' \
+  -o 'memory read --format x --size 4 --count 1 $config2+0x1c44' \
+  -o 'memory read --format x --size 1 --count 1 $config2+0x4327' \
+  -o 'memory read --format x --size 4 --count 1 $config2+0x4328' \
   -o 'memory read --format x --size 4 --count 32 $spill2' \
   -o 'thread step-out' \
   -o 'memory read --format x --size 4 --count 32 $spill2' \
@@ -378,9 +424,9 @@ xcrun lldb --batch \
   --threads 65536 --threadgroup-size 256 --pool-probe --pool-hold-ms 0
 ```
 
-Confirm the frame is `AGXMetalG17X` at each stop. On the zero-input call, compare post-call page fields at offsets `0x14` and `0x18` with the larger of their pre-call values and the static candidates above; a second descriptor allocation may be skipped if no field changes.
+Confirm the frame is `AGXMetalG17X` at each stop. Record the config fields and `w1`–`w6` at every call; the second call may use a different spill object. For the ordinary call, use `--compute-candidates` and compare post-call page fields at offsets `0x14` and `0x18` with the larger of their pre-call values and its candidates. On the zero-input call, make the same comparison with the end-pass candidates; a second descriptor allocation may be skipped if no field changes.
 
-For each G17X descriptor capture, transcribe the LLDB values into a JSON object with `config` keys `primary_mask_0x1be0`, `alternate_mask_0x1bf0` (128-bit hex strings formed from two little-endian 64-bit words each), `device_count_0x1c44`, `resource_limit_0x1c1c`, and `usc_width_0x1c5c`; a Boolean `resource_list_present` from whether `$resource` is nonzero; and `spill_words` mapping the captured 32-bit offsets `0x00`, `0x04`, `0x08`, `0x0c`, `0x10`, `0x14`, `0x18`, `0x1c`, `0x24`, `0x28`, `0x2c`, and `0x30` to their values. Run `python3 scripts/g17x_descriptor.py /tmp/m5-spill-inputs.json` and compare its predicted values at descriptor offsets 0, 8, and 64 with the post-call memory read. To evaluate the zero-input end-pass candidate, also transcribe spill-object words at `0x48`, `0x50`, and `0x60`, then run `python3 scripts/g17x_descriptor.py --zero-input-end-pass /tmp/m5-spill-inputs.json`. This evaluates only the recovered **user-mode descriptor producer**. The M5 kernel's pool methods and their device-selected parameters still need separate reconstruction before predicting physical pool bytes.
+For each G17X descriptor capture, transcribe the LLDB values into a JSON object with `config` keys `primary_mask_0x1be0`, `alternate_mask_0x1bf0` (128-bit hex strings formed from two little-endian 64-bit words each), `device_count_0x1c44`, `resource_limit_0x1c1c`, and `usc_width_0x1c5c`; a Boolean `resource_list_present` from whether `$resource` is nonzero; and `spill_words` mapping the captured 32-bit offsets `0x00`, `0x04`, `0x08`, `0x0c`, `0x10`, `0x14`, `0x18`, `0x1c`, `0x24`, `0x28`, `0x2c`, and `0x30` to their values. Run `python3 scripts/g17x_descriptor.py /tmp/m5-spill-inputs.json` and compare its predicted values at descriptor offsets 0, 8, and 64 with the post-call memory read. To evaluate the compute-check candidates, also transcribe spill-object words `0x48`, `0x50`, and `0x60`, config byte `compute_option_0x4327`, config word `compute_word_0x4328`, and a `compute_args` object with keys `f1` through `f6` and integer values from the entry registers; run `python3 scripts/g17x_descriptor.py --compute-candidates /tmp/m5-spill-inputs.json`. The zero-input end-pass candidate uses `--zero-input-end-pass` with the same spill-object words. These evaluate only the recovered **user-mode descriptor producer**. The M5 kernel's pool methods and their device-selected parameters still need separate reconstruction before predicting physical pool bytes.
 
 ## Physical backing
 
