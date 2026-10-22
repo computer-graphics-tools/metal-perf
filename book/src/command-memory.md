@@ -251,6 +251,20 @@ After recording predictions, check every row, including invalid or late samples,
 
 The M4 sweep does not complete the G17X sizing investigation. Static inspection of the same OS build's user-mode Metal plugins finds a G16G `SpillInfoGen3`/HAL200 path and a G17X `SpillInfoGen4`/HAL300 path. The G17X compute descriptor producer reads a selected active-USC mask and device count; one conditional branch combines 4 KiB and 64 KiB ceiling divisions before writing its page counts. That branch can be translated symbolically on this M4, but its selection and numeric inputs require an M5 process. A further translation of G17X `allocateUSCSpillBuffer` separates two resource-list bounds: `maxActive = min(floor(2L/N), A)` and `selectedPop = min(pop, floor(2L/N)*N)` when a resource list is present, where `L` and `N` are device-config words, `A` is `MaxActiveUSCsInMGPU()`, and `pop` counts the selected USC mask. Without a resource list, these are `A` and `pop`. The `A` method is itself resolved: it uses the selected mask at device-config offset `0x1be0` or `0x1bf0`, a width at `0x1c5c`, and `N` slices (`N` is at `0x1c44`), then returns the largest slice popcount. It writes descriptor word at byte offset 64 as `N*(11*maxActive + sum(this[0], this[4], this[8], this[12], this[16]) + 10)` in unsigned 32-bit arithmetic. The active G16G kernel's `getSelfReserveSize` treats descriptor offset 64 as a page count; the G17X kernel consumer must still be verified on M5. The user-mode descriptor arithmetic does not by itself reveal the kernel pool's minimum, ideal, and desired-size arithmetic. The G17X result still requires a formula reconstructed from its driver path and checked against an M5 Max sweep on the specified reference toolchain, including at least six held-out shapes within one 8 MiB block and a repeat range within 8 MiB. Do not transfer the M4 coefficients or its observed 2 MiB footprint steps to G17X.
 
+Both G17X HAL300 compute-context variants in this OS build's user-mode binary call `SpillInfoGen4::checkSpillParamsForCompute` from `endComputePass` with the first six integer arguments zero. They call `allocateUSCSpillBuffer` again only when the check reports a change. The zero-input check branches converge regardless of the option byte at device-config offset `0x4327` and bit 31 of its word at `0x4328`. For nonnegative values without signed 32-bit overflow, its candidate page counts reduce to:
+
+```text
+P = popcount(selected 128-bit USC mask)
+N = load_u32(config + 0x1c44)
+M = load_u32(spill + 0x48)
+base = load_u32(spill + 0x50)
+R = load_u32(spill + 0x60)
+candidate14 = round_up_8(N * (base + 65 + 10*P + M*max(170-R, 0)))
+candidate18 = round_up_8(N * (base + 65 + M*max(490-R, 0)))
+```
+
+These are **static G17X user-mode code translations**, not M5 measurements or physical pool sizes. The function compares them with existing spill-object fields; descriptor allocation may apply further terms. The M5 run must capture the selected mask, `N`, `M`, `base`, `R`, and the before/after fields to test this path and decide whether an end-pass descriptor affects the pool.
+
 ### M5 reference validation runbook
 
 The acceptance criteria in this subsection are requirements from issues #1, #9 and #15; commands are the proposed procedure for gathering their evidence.
@@ -342,7 +356,31 @@ xcrun lldb --batch \
 
 Inspect the stopped frame to confirm it is `AGXMetalG17X` before interpreting the bytes. Small-private kernels can invoke this producer more than once; record each call when deciding which descriptor reaches the pool. For the kernel side, pass the *active* boot collection path reported on that host to `kmutil emit-macho --boot-path <active-kernelcache> --allow-missing-collections`; the M4 path under Preboot is not an M5 path. Resolve virtual calls against the G17X vtable, recover current values of the kick counts, ideal constant, sizing flag, percentage property, freelist fields and pool maximum, and evaluate minimum, ideal and desired separately for every measured shape. Compare those return values with the process footprint while accounting for any other charged graphics blocks. An isolated diagnostic sample of the M5 UMA pool IOReport channels, if present, can independently check pool attribution; verify G17X counter-update semantics before interpreting its values, and exclude concurrent pool activity. Preserve a prediction file made from the derived formula before measuring the held-out shapes. The M4 descriptor formula above is a method example, not an M5 parameter set.
 
-For each G17X descriptor capture, transcribe the LLDB values into a JSON object with `config` keys `primary_mask_0x1be0`, `alternate_mask_0x1bf0` (128-bit hex strings formed from two little-endian 64-bit words each), `device_count_0x1c44`, `resource_limit_0x1c1c`, and `usc_width_0x1c5c`; a Boolean `resource_list_present` from whether `$resource` is nonzero; and `spill_words` mapping the captured 32-bit offsets `0x00`, `0x04`, `0x08`, `0x0c`, `0x10`, `0x14`, `0x18`, `0x1c`, `0x24`, `0x28`, `0x2c`, and `0x30` to their values. Run `python3 scripts/g17x_descriptor.py /tmp/m5-spill-inputs.json` and compare its predicted values at descriptor offsets 0, 8, and 64 with the post-call memory read. This evaluates only the recovered **user-mode descriptor producer**. The M5 kernel's pool methods and their device-selected parameters still need separate reconstruction before predicting physical pool bytes.
+In a separate fresh diagnostic process, break at `checkSpillParamsForCompute` and record `w1`–`w6` plus the spill object before and after the call. Repeat the `continue`/read/`thread step-out` sequence until the zero-argument `endComputePass` call is seen; the number of earlier calls can vary. For a two-call case, use:
+
+```sh
+xcrun lldb --batch \
+  -o 'breakpoint set --func-regex checkSpillParamsForCompute' \
+  -o run \
+  -o 'expression -l c++ -- unsigned long $spill = (unsigned long)$x0' \
+  -o 'register read w1 w2 w3 w4 w5 w6' \
+  -o 'memory read --format x --size 4 --count 32 $spill' \
+  -o 'thread step-out' \
+  -o 'memory read --format x --size 4 --count 32 $spill' \
+  -o continue \
+  -o 'expression -l c++ -- unsigned long $spill2 = (unsigned long)$x0' \
+  -o 'register read w1 w2 w3 w4 w5 w6' \
+  -o 'memory read --format x --size 4 --count 32 $spill2' \
+  -o 'thread step-out' \
+  -o 'memory read --format x --size 4 --count 32 $spill2' \
+  -o 'breakpoint disable 1' -o continue -- \
+  target/release/metal-perf idle-gap --private-bytes 4 \
+  --threads 65536 --threadgroup-size 256 --pool-probe --pool-hold-ms 0
+```
+
+Confirm the frame is `AGXMetalG17X` at each stop. On the zero-input call, compare post-call page fields at offsets `0x14` and `0x18` with the larger of their pre-call values and the static candidates above; a second descriptor allocation may be skipped if no field changes.
+
+For each G17X descriptor capture, transcribe the LLDB values into a JSON object with `config` keys `primary_mask_0x1be0`, `alternate_mask_0x1bf0` (128-bit hex strings formed from two little-endian 64-bit words each), `device_count_0x1c44`, `resource_limit_0x1c1c`, and `usc_width_0x1c5c`; a Boolean `resource_list_present` from whether `$resource` is nonzero; and `spill_words` mapping the captured 32-bit offsets `0x00`, `0x04`, `0x08`, `0x0c`, `0x10`, `0x14`, `0x18`, `0x1c`, `0x24`, `0x28`, `0x2c`, and `0x30` to their values. Run `python3 scripts/g17x_descriptor.py /tmp/m5-spill-inputs.json` and compare its predicted values at descriptor offsets 0, 8, and 64 with the post-call memory read. To evaluate the zero-input end-pass candidate, also transcribe spill-object words at `0x48`, `0x50`, and `0x60`, then run `python3 scripts/g17x_descriptor.py --zero-input-end-pass /tmp/m5-spill-inputs.json`. This evaluates only the recovered **user-mode descriptor producer**. The M5 kernel's pool methods and their device-selected parameters still need separate reconstruction before predicting physical pool bytes.
 
 ## Physical backing
 
